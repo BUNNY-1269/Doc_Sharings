@@ -1,12 +1,15 @@
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
+
+from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
+
 from django.contrib.auth.decorators import login_required
+
+
+from .models import profile
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
-from django.contrib import messages, auth
-
-
-# Create your views here.
-from .forms import UserUpdateForm
-from .models import Profile
+from django.contrib import auth
 
 
 def home(request):
@@ -17,10 +20,9 @@ def login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = auth.authenticate(username=username, password=password)
-
         if user is not None:
             auth.login(request, user)
-            return redirect('home1')
+            return redirect('profile')
         else:
             messages.info(request, 'invalid credentials')
             return redirect('login')
@@ -29,9 +31,13 @@ def login(request):
 def register(request):
     if request.method == 'POST':
         username=request.POST['username']
-        email=request.POST['email']
-        password1=request.POST['pass1']
-        password2=request.POST['pass2']
+        print(username)
+    
+        email=request.POST.get('newemail')
+        
+        password1=request.POST.get('pass1')
+        print(password1)
+        password2=request.POST.get('pass2')
         if password1 == password2:
            if User.objects.filter(username=username).exists():
               messages.info(request,'username taken')
@@ -41,8 +47,8 @@ def register(request):
               return render(request,'users/register.html')
            else:
               user=User.objects.create_user(username=username,email=email,password=password1)
-              user.save();
-              return render(request,'users/login.html')
+              user.save()
+              return redirect('login')
         else:
             messages.info(request,'Password is not Matching')
             return render(request,'users/register.html')
@@ -52,20 +58,40 @@ def logout(request):
     auth.logout(request)
     return redirect('home')
 @login_required
-def profile(request):
+def profiles(request):
     if request.method == 'POST':
-        u_form = UserUpdateForm(request.POST, instance=request.user)
-
-        if u_form.is_valid():
-            u_form.save()
-            messages.success(request, f'Your account has been updated!')
-            return redirect('profile')
+        my_dict = request.POST
+        use=get_object_or_404(User,id=request.user.id) 
+        print(my_dict['pict'])
+        p1 = profile.objects.create(profilename=my_dict['profilename'], DOB=my_dict['DOB'], college=my_dict['college'],owner=use,image=my_dict['pict'])
+        p1.save()
+        return render(request, 'users/home.html')
 
     else:
-        u_form = UserUpdateForm(instance=request.user)
+        return render(request, 'users/profile.html')
+def profileupdate(request):
+    if request.method == 'POST':
+        my_dict = request.POST
+        use=get_object_or_404(User,id=request.user.id)
 
-    context = {
-        'u_form': u_form
-    }
 
-    return render(request, 'users/profile.html', context)
+
+        p1 = profile.objects.get(owner=use)
+        DO=p1.DOB
+        college=p1.college
+
+        p1.delete()
+        p1=profile(profilename=my_dict['profilename'], DOB=DO, college=college,image=my_dict['pict'],owner=use)
+
+        p1.save()
+        return render(request, 'users/home.html')
+
+    else:
+        return render(request, 'users/profileupdate.html')
+
+def createdprofile(request):
+
+    use = get_object_or_404(User, id=request.user.id)
+    p1=profile.objects.get(owner=use) 
+    print(p1)
+    return render(request,'users/createdprofile.html',{'p1':p1})
