@@ -1,9 +1,9 @@
 from django.contrib.auth.models import User
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 from .models import File
-
+from .forms import DocumentForm
 
 def home1(request):
     return render(request,'filesharing/home1.html')
@@ -17,3 +17,15 @@ def My_Files(request):
     all_files = File.objects.filter(user=user)
     context = { 'all_files':all_files,'u':user }
     return render(request, 'filesharing/MY_Files.html', context)
+def uploadfile(request):
+    form=DocumentForm(request.POST,request.FILES)
+    if form.is_valid():
+        for field in request.FILES.keys():
+            for formfile in request.FILES.getlist(field):
+                f = File(file=formfile, user=request.user)
+                f.name = f.filename()
+                f.save()
+        return redirect('My_Files')
+    else:
+        form=DocumentForm()
+        return render(request,'filesharing/uploadfile.html',{'form':form})
