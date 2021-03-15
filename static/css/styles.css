@@ -33,6 +33,12 @@ div.content {
   height: 2000px;
 
 }
+div.content1 {
+  margin-left: 550px;
+  padding: 1px 16px;
+  height: 2000px;
+
+}
 .example{
   margin-left: 650px;
   padding: 1px 16px;

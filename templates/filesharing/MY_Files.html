@@ -26,16 +26,24 @@
       <div class="list-group">
       {% for file in all_files %}
             <div class="list-group">
-                 <a href="#" class="list-group-item">
-                     <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank"><i class="fa fa-fw fa-file"></i> {{ file.name }} </a> </td>
-                     <a href="{{ file.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <p class="list-group-item-text">{{ file.created_on}}</p>
-                 </a>
+                 <div class="list-group-item">
+                     <h4 class="list-group-item-text">{{ file.name}}</h4>
+                      <p class="list-group-item-text">{{ file.created_on}}</p>
+                     <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank"><button type="button" class="btn btn-primary">Preview</button> </a> </td>
+                     <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 </div>
           </div>
+
       {% endfor %}
+
      </div>
-    <a href="uploadfile">Upload file</a>
+  <div class="content1">
+      <a href="uploadfile"><button type="button" class="btn btn-primary">Add File/Folder</button></a>
   </div>
+  </div>
+
+
+
   </body>
 </html>
 
