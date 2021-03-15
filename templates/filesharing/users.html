@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" href={% static "css/styles.css" %}/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{#<!-- jQuery library -->#}
+{#<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>#}
+{##}
+{#<!-- Latest compiled JavaScript -->#}
+{#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>#}
+</head>
+  <body>
+<div class="sidebar">
+  <a href="home1"><i class="fa fa-fw fa-home"></i> Home</a>
+  <a href="My_Files"><i class="fa fa-fw fa-file"></i>My files</a>
+  <a class="active" href="allusers"><i class="fa fa-fw fa-user"></i>All Users</a>
+  <a href="#clients"><i class="fa fa-fw fa-address-card"></i>Profile</a>
+  <a href="#contact"><i class="fa fa-fw fa"></i>Logout</a>
+</div>
+
+<form class="example" action="action_page.php">
+  <input type="text" placeholder="Search.." name="search">
+  <button type="submit"><i class="fa fa-search"></i></button>
+</form>
+
+  <div class="content">
+
+
+     <div class="list-group">
+      {% for u in all_users %}
+        {% if not u.pk is current_user.pk %}
+            <div class="w3-light-green">
+            <div class="list-group">
+                 <a href="#" class="list-group-item">
+                 <h4 class="list-group-item-heading">{{ u.username }}</h4>
+                  <p class="list-group-item-text">{{ u.email }}</p>
+                 </a>
+          </div>
+            </div>
+        {% endif %}
+      {% endfor %}
+     </div>
+  </div>
+  </body>
+</html>

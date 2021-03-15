@@ -1,0 +1,214 @@
+
+
+#menu{
+    float: right;
+    width: 100%;
+    height: 100%;
+    margin: none;
+}
+
+#menu ul{
+    text-align: center;
+    float: right;
+    margin: none;
+    background: #2fb153;
+}
+
+#menu li{
+    display: inline-block;
+    padding: none;
+    margin: none;
+}
+
+#menu li a, #menu li span{
+    display: inline-block;
+    padding: 0em 1.5em;
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    line-height: 60px;
+}
+
+#menu li a{
+
+    color: #FFF;
+}
+#headerImg{
+    top: 10px;
+    position: relative;
+}
+#headerImg img{
+    width: 10%;
+    height: 10%;
+    margin: none;
+    padding: none;
+}
+#image-text{
+    position: absolute;
+    top: 90%;
+    left: 80%;
+    font-family: 'Roboto';
+    color: #000;
+    transform: translate(-30%, -30%);
+    text-align: center;
+}
+#sBasics{
+    overflow: hidden;
+    margin-top: 5em;
+    padding-top: 1em;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    text-align: left;
+}
+#sEducation{
+    overflow: hidden;
+    margin-top: 5em;
+    padding-top: 1em;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    text-align: left;
+}
+#sExperience{
+    overflow: hidden;
+    margin-top: 5em;
+    padding-top: 1em;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    text-align: left;
+}
+#sProjects{
+    overflow: hidden;
+    margin-top: 5em;
+    padding-top: 1em;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    text-align: left;
+}
+#sTechSkills{
+    overflow: hidden;
+    margin-top: 5em;
+    padding-top: 1em;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    text-align: left;
+}
+#sKeyCourses{
+    overflow: hidden;
+    margin-top: 5em;
+    padding-top: 1em;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    text-align: leftr;
+}
+#sPOR{
+    overflow: hidden;
+    margin-top: 5em;
+    padding-top: 1em;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    text-align: left;
+}
+#sAchivements{
+    overflow: hidden;
+    margin-top: 5em;
+    padding-top: 1em;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    text-align: left;
+}
+.row #s1c,
+.row #s2c,
+.row #s3c,
+.row #s4c,
+.row #s5c,
+.row #s6c,
+.row #s7c,
+.row #s8c{
+    float: left;
+    width: 1200px;
+    text-align: center;
+
+}
+.row #form1{
+    float: left;
+    width: 1200px;
+    text-align: left;
+}
+.button {
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: 2px solid #4CAF50;
+    padding: 16px 32px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.vl{
+    border-left: 2px solid green;
+    height: 100px;
+    position: absolute;
+    left: 50%;
+    margin: -3px;
+    top: 0;
+}
+
+.button:hover {
+    background-color: white;
+    color: #4CAF50;
+}
+
+.column-title h2{
+    margin: 1em 0em;
+    margin-bottom: 4em;
+    font-size: 1.6em;
+    font-weight: 700;
+}
+
+
+body{
+    margin: 0px;
+    padding: 0px;
+    background: #FFFFFF;
+    font-family: 'Roboto';
+    font-size: 12pt;
+}
+
+h1, h2, h3{
+    margin: 0;
+    padding: 0;
+    color: #404040;
+}
+
+p, ol, ul{
+    margin-top: 0;
+}
+
+p {
+    line-height: 180%;
+}
+
+ol, ul{
+    padding: 0;
+    list-style: none;
+}
+
+.container{
+    /* Set width of container to
+        1200px and align center */
+    margin: 0px auto;
+    width: 1400px;
+}
+button {
+    margin:0 auto;
+    display:block;
+}
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    border: 0.1px solid rgb(188, 236, 190);
+ }
+
+ #pdf1{
+     width: 100%;
+     height: 600px;
+ }
