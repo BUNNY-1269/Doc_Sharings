@@ -26,6 +26,29 @@
   <input type="text" placeholder="Search.." name="search">
   <button type="submit"><i class="fa fa-search"></i></button>
 </form>
+ <script type="application/javascript"href="js/jquery-1.11.3.min.js">
+function myFunction(event) {
+    event.preventDefault();
+    var name=document.getElementById('name').innerHTML
+    $.ajax({
+        type: "GET",
+        url: '/ousersfile',
+        data: {
+            "result": name,
+        },
+        dataType: "json",
+        success: function (data) {
+            // any process in data
+            alert("successfull")
+        },
+        failure: function () {
+            alert("failure");
+        }
+    });
+
+
+}
+</script>
 
   <div class="content">
 
@@ -35,9 +58,11 @@
         {% if not u.pk is current_user.pk %}
             <div class="w3-light-green">
             <div class="list-group">
-                 <a href="#" class="list-group-item">
-                 <h4 class="list-group-item-heading">{{ u.username }}</h4>
+                 <a href="{% url 'ousersfiles' u.username %}" class="list-group-item">
+                 <h4 class="list-group-item-heading" id="name" >{{ u.username }}</h4>
                   <p class="list-group-item-text">{{ u.email }}</p>
+
+
                  </a>
           </div>
             </div>
@@ -45,5 +70,6 @@
       {% endfor %}
      </div>
   </div>
+
   </body>
 </html>
