@@ -37,14 +37,53 @@
       {% endfor %}
 
      </div>
-    
-  <div class="content1">
-      <a href="uploadfile"><button type="button" class="btn btn-primary">Add File/Folder</button></a>
+      <div class="content1">
+          <button type="button" id="button" class="btn btn-primary">Add File/Folder</button>
+     </div>
 
-  </div>
 
     </div>
 
 
+
+
+
+   <script>
+     var el= document.getElementById('button')
+         if(el)
+         {
+             el.addEventListener('click',function(){
+             document.querySelector('.bg-modal').style.display='flex';
+            });
+
+         }
+   </script>
+
+
+
+  <div class="bg-modal">
+    <div class="modal-content">
+        <div class="close">+</div>
+           <form action="uploadfile" method="POST"  enctype="multipart/form-data">
+             {% csrf_token %}
+               <input type="file" name="file" >
+             <button type="submit">Upload</button>
+           </form>
+
+
+    </div>
+  </div>
+  <script>
+      var el = document.querySelector('.close')
+         if(el) {
+             el.addEventListener('click', function () {
+                 document.querySelector('.bg-modal').style.display = 'none';
+             });
+
+         }
+  </script>
+
+
   </body>
 </html>
+
