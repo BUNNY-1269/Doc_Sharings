@@ -1,18 +1,28 @@
-<html>
 
-<head>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="{%  static "css/styles.css" %}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <meta charset="UTF-8">
-    <title>
-        profile page
-
-    </title>
 
 </head>
+  <body>
+<div class="sidebar">
+  <a  href="/home1"><i class="fa fa-fw fa-home"></i> Home</a>
+  <a href="/My_Files"><i class="fa fa-fw fa-file"></i>My files</a>
+  <a href="/allusers"><i class="fa fa-fw fa-user"></i>All Users</a>
+  <a class="active" href="#" onclick="return false"><i class="fa fa-fw fa-address-card" ></i>Profile</a>
+  <a href="logout"><i class="fa fa-fw fa"></i>Logout</a>
+</div>
 
-<body>
 
-    <div>
+<div class="content">
+  <div>
 
         profilename: {{p1.profilename}}
 
@@ -26,11 +36,11 @@
     </div>
     <div>
         created on : {{p1.created}}
-    </div> 
+    </div>
     <div>
       image: {{p1.image}}
     </div>
-
-</body>
-
+</div>
+  </body>
 </html>
+
