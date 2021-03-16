@@ -22,7 +22,7 @@ def login(request):
         user = auth.authenticate(username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            return redirect('home1')
+            return redirect('alreadythere')
         else:
             messages.info(request, 'invalid credentials')
             return redirect('login')
@@ -58,6 +58,15 @@ def logout(request):
     auth.logout(request)
     return redirect('home')
 @login_required
+def alreadythere(request):
+    use=get_object_or_404(User,id=request.user.id)
+    if profile.objects.filter(owner=use).count()==0 :
+        print(profile.objects.filter(owner=use),1)
+        return redirect('profile')
+    else:
+        print(profile.objects.filter(owner=use), 2)
+        return redirect('home1')
+
 def profiles(request):
     if request.method == 'POST':
         my_dict = request.POST
@@ -65,7 +74,7 @@ def profiles(request):
         print(my_dict['pict'])
         p1 = profile.objects.create(profilename=my_dict['profilename'], DOB=my_dict['DOB'], college=my_dict['college'],owner=use,image=my_dict['pict'])
         p1.save()
-        return render(request, 'users/home.html')
+        return redirect('home1')
 
     else:
         return render(request, 'users/profile.html')
@@ -84,7 +93,7 @@ def profileupdate(request):
         p1=profile(profilename=my_dict['profilename'], DOB=DO, college=college,image=my_dict['pict'],owner=use)
 
         p1.save()
-        return render(request, 'users/home.html')
+        return redirect('profile')
 
     else:
         return render(request, 'users/profileupdate.html')
