@@ -22,24 +22,27 @@
 
 
 <div class="content">
-  <div>
-
-        profilename: {{p1.profilename}}
+     <div>
+      <img class="rounded-circle account-img"  src="{{ p1.image.url  }}" width="300" height="300" >
 
     </div>
+
+  <div>
+        profilename: {{p1.profilename}}
+    </div>
+
     <div>
         DOB : {{p1.DOB}}
-
     </div>
+
     <div>
      college :  {{p1.college}}
     </div>
+
     <div>
         created on : {{p1.created}}
     </div>
-    <div>
-      image: {{p1.image}}
-    </div>
+
 </div>
   </body>
 </html>
