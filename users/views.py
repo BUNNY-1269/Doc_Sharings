@@ -93,7 +93,7 @@ def profileupdate(request):
         p1=profile(profilename=my_dict['profilename'], DOB=DO, college=college,image=my_dict['pict'],owner=use)
 
         p1.save()
-        return redirect('profile')
+        return redirect('home1')
 
     else:
         return render(request, 'users/profileupdate.html')
