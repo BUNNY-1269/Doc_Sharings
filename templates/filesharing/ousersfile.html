@@ -15,8 +15,8 @@
 
 <div class="sidebar">
   <a href="home1"><i class="fa fa-fw fa-home"></i> Home</a>
-  <a class="active" href="My_Files"><i class="fa fa-fw fa-file"></i>My files</a>
-  <a href="allusers"><i class="fa fa-fw fa-user"></i>All Users</a>
+  <a  href="My_Files"><i class="fa fa-fw fa-file"></i>My files</a>
+  <a class="active" href="allusers"><i class="fa fa-fw fa-user"></i>All Users</a>
   <a href="#clients"><i class="fa fa-fw fa-address-card"></i>Profile</a>
   <a href="logout"><i class="fa fa-fw fa"></i>Logout</a>
 </div>
@@ -29,9 +29,11 @@
       {% for file in all_files %}
             <div class="list-group">
                  <div  class="list-group-item">
-                     <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank"><i class="fa fa-fw fa-file"></i> {{ file.name }} </a> </td>
-                     <a href="{{ file.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <p class="list-group-item-text">{{ file.created_on}}</p>
+                    <h4 class="list-group-item-text">{{ file.name}}</h4>
+                      <p class="list-group-item-text">{{ file.created_on}}</p>
+                     <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank"><button type="button" class="btn btn-primary">Preview</button> </a> </td>
+                     <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
                  </div>
           </div>
       {% endfor %}
