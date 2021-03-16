@@ -31,3 +31,9 @@ def uploadfile(request):
         return redirect('My_Files')
       else:
         return redirect('My_Files')
+def ousersfile(request,user):
+    print(user)
+    ruser=User.objects.get(username=user)
+    all_files = File.objects.filter(user=ruser)
+    context = {'all_files': all_files, 'u': ruser}
+    return render(request, 'filesharing/ousersfile.html', context)    
