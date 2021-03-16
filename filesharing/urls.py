@@ -7,5 +7,5 @@ urlpatterns = [
       path('allusers',views.allusers,name='allusers'),
       path('My_Files',views.My_Files,name='My_Files'),
       path('uploadfile',views.uploadfile,name='uploadfile'),
-      path('ousersfile/<slug:user>',views.ousersfile,name='ousersfiles')
+      path('<slug:user>',views.ousersfile,name='ousersfiles')
 ]
