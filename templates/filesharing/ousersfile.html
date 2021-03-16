@@ -1,8 +1,7 @@
-
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
   <head>
     <meta charset="utf-8">
     <title>Home</title>
@@ -13,10 +12,11 @@
 
 </head>
   <body>
+
 <div class="sidebar">
   <a href="home1"><i class="fa fa-fw fa-home"></i> Home</a>
-  <a class="active" href="My_Files"><i class="fa fa-fw fa-file"></i>My files</a>
-  <a href="allusers"><i class="fa fa-fw fa-user"></i>All Users</a>
+  <a  href="My_Files"><i class="fa fa-fw fa-file"></i>My files</a>
+  <a class="active" href="allusers"><i class="fa fa-fw fa-user"></i>All Users</a>
   <a href="createdprofile"><i class="fa fa-fw fa-address-card"></i>Profile</a>
   <a href="logout"><i class="fa fa-fw fa"></i>Logout</a>
 </div>
@@ -24,13 +24,22 @@
   <input type="text" placeholder="Search.." name="search">
   <button type="submit"><i class="fa fa-search"></i></button>
 </form>
+  <div class="content">
+      <div class="list-group">
+      {% for file in all_files %}
+            <div class="list-group">
+                 <div  class="list-group-item">
+                    <h4 class="list-group-item-text">{{ file.name}}</h4>
+                      <p class="list-group-item-text">{{ file.created_on}}</p>
+                     <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank"><button type="button" class="btn btn-primary">Preview</button> </a> </td>
+                     <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
- <form method="post" class="example" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Upload</button>
-  </form>
-
+                 </div>
+          </div>
+      {% endfor %}
+     </div>
+  </div>
 
   </body>
 </html>
+
