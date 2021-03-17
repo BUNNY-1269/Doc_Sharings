@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from .models import profile
 from django.contrib.auth.models import User
 from django.contrib import auth
-
+from .forms import imageform,profilecreate
 
 def home(request):
     return render(request,'users/home.html')
@@ -68,35 +68,53 @@ def alreadythere(request):
         return redirect('home1')
 
 def profiles(request):
-    if request.method == 'POST':
-        my_dict = request.POST
-        use=get_object_or_404(User,id=request.user.id) 
-        print(my_dict['pict'])
-        p1 = profile.objects.create(profilename=my_dict['profilename'], DOB=my_dict['DOB'], college=my_dict['college'],owner=use,image=my_dict['pict'])
+    if request.method=='POST':
+      form=profilecreate(request.POST,request.FILES)
+      if form.is_valid():
+        g=form.save(commit=False)
+        g.owner=get_object_or_404(User,id=request.user.id)
+        p1=profile(image=g.image,profilename=g.profilename,DOB=g.DOB,college=g.college,owner=g.owner)
         p1.save()
-        return redirect('home1')
+        return redirect('createdprofile')
+
 
     else:
-        return render(request, 'users/profile.html')
+        form=profilecreate()
+        return render(request, 'users/profile.html',{'form':form})
 def profileupdate(request):
-    if request.method == 'POST':
-        my_dict = request.POST
-        use=get_object_or_404(User,id=request.user.id)
-
-
-
-        p1 = profile.objects.get(owner=use)
-        DO=p1.DOB
+    # if request.method == 'POST':
+    #     my_dict = request.POST
+    #     use=get_object_or_404(User,id=request.user.id)
+    #
+    #
+    #    print(my_dict['pict'],2345)
+    #
+    #     p1 = profile.objects.get(owner=use)
+    #     DOB=p1.DOB
+    #     college=p1.college
+    #
+    #     p1.delete()
+    #     p1=profile(profilename=my_dict['profilename'], DOB=DO, college=college,image=my_dict['pict'],owner=use)
+    #
+    #     p1.save()
+    #     return redirect('home1')
+    if request.method=='POST':
+      form=imageform(request.POST,request.FILES)
+      if form.is_valid():
+        g=form.save(commit=False)
+        g.owner=get_object_or_404(User,id=request.user.id)
+        p1 = profile.objects.get(owner=get_object_or_404(User,id=request.user.id))
+        DOB = p1.DOB
         college=p1.college
-
         p1.delete()
-        p1=profile(profilename=my_dict['profilename'], DOB=DO, college=college,image=my_dict['pict'],owner=use)
-
+        p1=profile(image=g.image,profilename=g.profilename,DOB=DOB,college=college,owner=g.owner)
         p1.save()
-        return redirect('home1')
+        return redirect('createdprofile')
+
 
     else:
-        return render(request, 'users/profileupdate.html')
+        form=imageform()
+        return render(request, 'users/profileupdate.html',{'form':form})
 
 def createdprofile(request):
 

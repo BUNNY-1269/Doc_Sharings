@@ -11,9 +11,9 @@
 </head>
 
 <body>
+<!--
 
-
-    <form method="POST" action="" id="profilepage" >{%csrf_token%}
+    <form method="POST" action="" id="profilepage" enctype='multipart/form-data' >{%csrf_token%}
          <div>
          <label for="profilename">profilename </label>
         <input type="text" id="profilename" name="profilename" >
@@ -47,6 +47,13 @@
 
     </form>
 
+ -->
+
+ <form method="post"  enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">submit</button>
+  </form>
 
 </body>
 
