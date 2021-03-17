@@ -18,7 +18,7 @@
   <a href="home1"><i class="fa fa-fw fa-home"></i> Home</a>
   <a href="My_Files"><i class="fa fa-fw fa-file"></i>My files</a>
   <a class="active" href="allusers"><i class="fa fa-fw fa-user"></i>All Users</a>
-  <a href="createdprofile"><i class="fa fa-fw fa-address-card"></i>Profile</a>
+  <a href="createdprofile"><i class="fa fa-fw fa-address-card"></i>MY Profile</a>
   <a href="logout"><i class="fa fa-fw fa"></i>Logout</a>
 </div>
 
@@ -78,8 +78,12 @@ function myFunction(event) {
                 {% for u in all_users %}
                   {% if not u.pk is current_user.pk %}
                       <article class="media content-section">
+<a href="{% url 'oprofile' u.username %}" class="list-group-item">
 
-               <img class="rounded-circle article-img" width="100" height = "100" src="{{ u.profile.image.url }}">
+    <img class="rounded-circle article-img" width="100" height = "100" src="{{ u.profile.image.url }}">
+                </a>
+
+
                            <div class="media-body">
             <div class="article-metadata">
 
@@ -90,6 +94,7 @@ function myFunction(event) {
 
 
                  </a>
+
 
           </div>
           </div>
