@@ -17,3 +17,8 @@ class File(models.Model):
 
     def __str__(self):
         return self.name
+    def delete(self, *args, **kwargs):
+        self.file.delete()
+        self.name.delete()
+        super().delete(*args, **kwargs)
+
