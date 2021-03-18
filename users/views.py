@@ -122,11 +122,3 @@ def createdprofile(request):
     p1=profile.objects.get(owner=use) 
     print(p1)
     return render(request,'users/createdprofile.html',{'p1':p1})
-
-def oprofile(request,user):
-    puser =User.objects.get(username = user)
-
-    p1 = profile.objects.get(owner=puser.id)
-
-    context = {'p1':p1}
-    return render(request,'users/oprofile.html',context)

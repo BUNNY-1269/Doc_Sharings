@@ -8,7 +8,19 @@
     <link rel="stylesheet" type="text/css" href="{%  static "css/styles.css" %}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        p.solid {border-style: solid;}
+        h4{
+            border-bottom: 2px solid black;
+        }
+        .vl
+        {border-left: 2px solid black;
+         height: auto;
+        }
 
+
+}
+    </style>
 
 </head>
   <body>
@@ -22,32 +34,37 @@
 
 
 <div class="content">
+
      <div>
       <img class="rounded-circle account-img"  src="{{ p1.image.url  }}" width="250" height="250" >
-
     </div>
+<div class="vl">
+    <h4></h4>
+   <div>
 
-  <div>
-        profilename: {{p1.profilename}}
+       <h4>ProfileName: {{p1.profilename}}</h4>
+
+
+   </div>
+
+
+
+    <div>
+        <h4>DOB : {{p1.DOB}}</h4>
     </div>
 
     <div>
-        DOB : {{p1.DOB}}
+        <h4>College :  {{p1.college}}</h4>
     </div>
 
     <div>
-     college :  {{p1.college}}
-    </div>
-
-    <div>
-        created on : {{p1.created}}
+        <h4>Created on : {{p1.created}}</h4>
     </div>
 </div>
 
 {# <a href="profileupdate"><i class="btn btn-primary"></i>Update Profile</a>#}
     <a href="profileupdate" class="btn btn-primary" role="button">Update Profile</a>
 </div>
-
 
   </body>
 </html>
