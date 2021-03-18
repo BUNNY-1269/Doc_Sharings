@@ -53,16 +53,29 @@ function myFunction(event) {
   <div class="content">
 
 
-     <div class="list-group">
+      <div class="list-group">
       {% for u in all_users %}
         {% if not u.pk is current_user.pk %}
             <div class="w3-light-green">
             <div class="list-group">
                  <a href="{% url 'ousersfiles' u.username %}" class="list-group-item">
+                   <div class="container">
+                   <div class="row ">
+                     <div class="col-md-auto">
+                       <div class="text-left">
+                            <img class="rounded-circle article-img" width="100" height = "100" src="{{ u.profile.image.url }}">
+                      </div>
+                     </div>
+
+                 <div class="col-md-auto">
+                   <div class="text-left">
                  <h4 class="list-group-item-heading" id="name" >{{ u.username }}</h4>
                   <p class="list-group-item-text">{{ u.email }}</p>
+                </div>
+                 </div>
 
-
+            </div>
+              </div>
                  </a>
           </div>
             </div>
