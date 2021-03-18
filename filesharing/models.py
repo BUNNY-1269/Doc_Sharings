@@ -12,6 +12,7 @@ class File(models.Model):
     file=models.FileField(upload_to=user_directory_path);
     created_on = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE, default=None)
+    isprivate = models.BooleanField(default=False)
     def filename(self):
         return os.path.basename(self.file.name)
 

@@ -44,3 +44,26 @@ def delete(request,pk):
     file.delete()
 
     return redirect('My_Files')
+
+def makeprivate(request,pk):
+    user = request.user
+    all_files = File.objects.filter(user=user)
+    gfile = all_files.get(pk=pk)
+    gfile.isprivate = True
+    gfile.save(update_fields = ["isprivate"])
+    all_files = File.objects.filter(user=user)
+    context = {'all_files': all_files, 'u': user}
+
+    return redirect('My_Files')
+
+
+
+def makepublic(request,pk):
+    user = request.user
+    all_files = File.objects.filter(user=user)
+    gfile = all_files.get(pk=pk)
+    gfile.isprivate = False
+    gfile.save(update_fields=["isprivate"])
+    all_files = File.objects.filter(user=user)
+    context = {'all_files': all_files, 'u': user}
+    return redirect('My_Files')

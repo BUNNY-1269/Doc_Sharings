@@ -8,5 +8,7 @@ urlpatterns = [
       path('My_Files',views.My_Files,name='My_Files'),
       path('uploadfile',views.uploadfile,name='uploadfile'),
       path('<slug:user>',views.ousersfile,name='ousersfiles'),
-      path('My_Files/<int:pk>',views.delete,name='delete')
+      path('My_Files/<int:pk>',views.delete,name='delete'),
+      path('My_Files/makeprivate/<int:pk>',views.makeprivate,name='makeprivate'),
+      path('My_Files/makepublic/<int:pk>',views.makepublic,name='makepublic')
 ]
