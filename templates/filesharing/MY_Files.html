@@ -15,7 +15,7 @@
   <a href="home1"><i class="fa fa-fw fa-home"></i> Home</a>
   <a class="active" href="My_Files"><i class="fa fa-fw fa-file"></i>My files</a>
   <a href="allusers"><i class="fa fa-fw fa-user"></i>All Users</a>
-  <a href="createdprofile"><i class="fa fa-fw fa-address-card"></i>Profile</a>
+  <a href="createdprofile"><i class="fa fa-fw fa-address-card"></i>MY Profile</a>
   <a href="logout"><i class="fa fa-fw fa"></i>Logout</a>
 </div>
 <form class="example" action="action_page.php">
@@ -30,7 +30,8 @@
                      <h4 class="list-group-item-text">{{ file.name}}</h4>
                       <p class="list-group-item-text">{{ file.created_on}}</p>
                      <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank"><button type="button" class="btn btn-primary">Preview</button> </a> </td>
-                     <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>
+                     <a class="list-group-item-text" href="{% url 'delete' file.pk %}" ><button type="button" class="btn btn-primary">Delete</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                  </div>
           </div>
 
