@@ -30,8 +30,8 @@
                      <h4 class="list-group-item-text">{{ file.name}}</h4>
                       <p class="list-group-item-text">{{ file.created_on}}</p>
                      <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank"><button type="button" class="btn btn-primary">Preview</button> </a> </td>
-                     <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                   <a class="list-group-item-text" href="{% url 'delete' file.pk %}" ><button type="button" class="btn btn-primary">Delete</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                     <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>
+                     <a class="list-group-item-text" href="{% url 'delete' file.pk %}" ><button type="button" class="btn btn-primary">Delete</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                  </div>
           </div>
 
