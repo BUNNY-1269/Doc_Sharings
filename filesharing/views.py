@@ -36,14 +36,14 @@ def ousersfile(request,user):
     ruser=User.objects.get(username=user)
     all_files = File.objects.filter(user=ruser)
     context = {'all_files': all_files, 'u': ruser}
-    return render(request, 'filesharing/ousersfile.html', context)
+    return render(request, 'filesharing/ousersfile.html', context)    
 def delete(request,pk):
     user = request.user
     all_files = File.objects.filter(user=user)
     file=all_files.filter(pk=pk)
     file.delete()
-    return redirect('My_Files')
 
+    return redirect('My_Files')
 
 def makeprivate(request,pk):
     user = request.user
