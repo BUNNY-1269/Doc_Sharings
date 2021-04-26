@@ -10,7 +10,6 @@ urlpatterns = [
       path('profile',views.profiles,name='profile'),
       path('profileupdate',views.profileupdate,name='profileupdate'),
       path('createdprofile',views.createdprofile,name='createdprofile'),
-      path('alreadythere',views.alreadythere,name='alreadythere'),
-      path('oprofile/<slug:user>', views.oprofile, name='oprofile')
+      path('alreadythere',views.alreadythere,name='alreadythere')
 ]
 
