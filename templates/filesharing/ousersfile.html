@@ -27,6 +27,8 @@
   <div class="content">
       <div class="list-group">
       {% for file in all_files %}
+          {% if file.isprivate %}
+          {% else %}
             <div class="list-group">
                  <div  class="list-group-item">
                     <h4 class="list-group-item-text">{{ file.name}}</h4>
@@ -36,6 +38,7 @@
 
                  </div>
           </div>
+          {% endif %}
       {% endfor %}
      </div>
   </div>
