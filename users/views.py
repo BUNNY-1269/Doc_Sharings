@@ -65,7 +65,7 @@ def alreadythere(request):
         return redirect('profile')
     else:
         print(profile.objects.filter(owner=use), 2)
-        return redirect('home1')
+        return redirect('filesharing:home1')
 
 def profiles(request):
     if request.method=='POST':
