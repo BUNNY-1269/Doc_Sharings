@@ -119,7 +119,7 @@ def makeprivate(request,pk):
     all_files = File.objects.filter(user=user)
     context = {'all_files': all_files, 'u': user}
 
-    return redirect('My_Files')
+    return redirect('filesharing:My_Files')
 
 
 
@@ -131,7 +131,7 @@ def makepublic(request,pk):
     gfile.save(update_fields=["isprivate"])
     all_files = File.objects.filter(user=user)
     context = {'all_files': all_files, 'u': user}
-    return redirect('My_Files')
+    return redirect('filesharing:My_Files')
 
 
 
