@@ -12,7 +12,7 @@ urlpatterns = [
       path('My_Files/makeprivate/<int:pk>',views.makeprivate,name='makeprivate'),
       path('My_Files/makepublic/<int:pk>',views.makepublic,name='makepublic'),
       path('uploadlinkedfile/<int:pk>',views.uploadlinkedfile,name='uploadlinkedfile'),
-      path('index', views.index,name='index'),
-      path('<int:folder_id>/',views.detail,name='detail')
+      path('index', views.index, name='index'),
+      path('<int:folder_id>/', views.detail, name='detail')
 
 ]
