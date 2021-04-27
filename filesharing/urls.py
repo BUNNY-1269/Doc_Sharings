@@ -14,5 +14,8 @@ urlpatterns = [
       path('uploadlinkedfile/<int:pk>',views.uploadlinkedfile,name='uploadlinkedfile'),
       path('index', views.index, name='index'),
       path('<int:folder_id>/', views.detail, name='detail')
+      path('folder_upload/<int:pk>/', views.FolderUpload, name='folder-upload'),
+      path('folder_upload_index/', views.FolderUploadIndex, name='folder-upload-index'),
+      path('folder/add/',views.FolderCreate.as_view(),name='folder-add')
 
 ]
