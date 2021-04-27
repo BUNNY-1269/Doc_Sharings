@@ -1,10 +1,10 @@
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,reverse
 from django.contrib import messages
 # Create your views here.
 from .models import File,Folder
 from .forms import DocumentForm
-
+from django.views.generic.edit import FormView,DeleteView,UpdateView
 def index(request):
     ruser = User.objects.get(username=user)
     all_files = File.objects.filter(user=ruser)
@@ -46,33 +46,39 @@ def My_Files(request):
     return render(request, 'filesharing/MY_Files.html', context)
 def uploadfile(request):  #changed
     if request.method=='POST':
-      form=DocumentForm(request.POST,request.FILES)
-      if not form.is_valid():
-        messages.info(request,'file is not valid')
-        return render(request, 'filesharing/uploadfile.html',{'form':form})
-      else :
-        f=File(file=request.FILES['file'],user=request.user)
-        f.name=f.filename()
-        f.save()
-        return reverse('filesharing:index')
-    else:
-         form=DocumentForm(None)
-         return render(request,'filesharing/uploadfile.html',{'form':form})
 
+            form = DocumentForm(request.POST, request.FILES)
+
+            if form.is_valid():
+                for field in request.FILES.keys():
+                    for formfile in request.FILES.getlist(field):
+                        f = File(file=formfile, user=request.user)
+                        f.name = f.filename()
+                        f.save()
+                return redirect('filesharing:index')
+            else:
+                return render(request, 'filesharing/file_form.html', {'form': form})
+    else:
+            form = DocumentForm(None)
+            return render(request, 'filesharing/file_form.html', {'form': form})
 def uploadlinkedfile(request,pk):   #added
     if request.method == 'POST':
+
         form = DocumentForm(request.POST, request.FILES)
-        if not form.is_valid():
-         messages.info(request, 'file is not valid')
-         return render(request, 'filesharing/uploadfile.html', {'form': form})
+
+        if form.is_valid():
+            for field in request.FILES.keys():
+                for formfile in request.FILES.getlist(field):
+                    f = File(file=formfile, user=request.user)
+                    f.name = f.filename()
+                    f.folder=Folder.objects.get(pk=pk)
+                    f.save()
+            return redirect('filesharing:index')
         else:
-         f = File(file=request.FILES['file'], user=request.user,folder=Folder.objects.get(pk=pk))
-         f.name = f.filename()
-         f.save()
-         return reverse('filesharing:detail',pk)
-    else
-         form=DocumentForm(None)
-         return render(request, 'filesharing/uploadfile.html',{'form':form})
+            return render(request, 'filesharing/file_form.html', {'form': form})
+    else:
+        form = DocumentForm(None)
+        return render(request, 'filesharing/file_form.html', {'form': form})
 class FileDelete(DeleteView):
     model = File
 
@@ -94,7 +100,7 @@ def ousersfile(request,user):
     all_folders=Folder.objects.filter(user=ruser)
     top_folder=Folder.objects.filter(linkedfolder__isnull=True)
     top_file=File.objects.filter(folder__isnull=True)
-    context = {'all_files':top_files, 'u': ruser,'all_folders':top_folders}
+    context = {'all_files':top_file, 'u': ruser,'all_folders':top_folder}
     return render(request, 'filesharing/ousersfile.html', context)    
 # def delete(request,pk):
 #     user = request.user
