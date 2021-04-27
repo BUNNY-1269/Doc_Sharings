@@ -133,8 +133,142 @@ def makepublic(request,pk):
     context = {'all_files': all_files, 'u': user}
     return redirect('filesharing:My_Files')
 
+class FolderCreate(LoginRequiredMixin, CreateView):
+    model = Folder
+    fields = ['name']
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(FolderCreate, self).form_valid(form)
+
+def FolderUploadIndex(request):
+    if request.method == 'POST':
+        form = FolderUploadForm(request.POST, request.FILES)
+        p = request.POST['path']
+        file_path_list = []
+        t = ""
+        for i in range(len(p)):
+            if p[i]!=" ":
+                t = t+p[i]
+            else:
+                file_path_list.append(t)
+                t = ""
+
+        pathlist_list = []
+
+        for path in file_path_list:
+            t = ""
+            list = []
+            for i in range(len(path)):
+                if path[i]!='/':
+                    t = t + path[i]
+                else:
+                    list.append(t)
+                    t = ""
+            pathlist_list.append(list)
+
+        for path in pathlist_list:
+            for i in range(len(path)):
+                if i==0:
+                    try:
+                        fol = Folder.objects.get(linkedfolder__isnull=True,name=path[i])
+                    except Folder.DoesNotExist:
+                        new_folder = Folder(name=path[i],user=request.user)
+                        new_folder.save()
+                        path[i] = new_folder
+                    else:
+                        path[i] = fol
+                else:
+                    try:
+                        fol = Folder.objects.get(linkedfolder=path[i-1],name=path[i])
+                    except Folder.DoesNotExist:
+                        new_folder = Folder(name=path[i],linkedfolder=path[i-1],user=request.user)
+                        new_folder.save()
+                        path[i] = new_folder
+                    else:
+                        path[i] = fol
 
 
+        if form.is_valid():
+            index = 0
+            for field in request.FILES.keys():
+                for formfile in request.FILES.getlist(field):
+                    pa = pathlist_list[index]
+                    folder = pa[len(pa)-1]
+                    f = File(file=formfile,user=request.user,folder=folder )
+                    f.name = f.filename()
+                    f.save()
+                    index = index+1
+
+        return redirect('filesharing:index')
+    else:
+        form = FolderUploadForm(None)
+        return render(request,'filesharing/folder_upload.html',{'form':form})
+
+def FolderUpload(request,pk):
+    if request.method == 'POST':
+        form = FolderUploadForm(request.POST, request.FILES)
+        p = request.POST['path']
+        file_path_list = []
+        t = ""
+        for i in range(len(p)):
+            if p[i]!=" ":
+                t = t+p[i]
+            else:
+                file_path_list.append(t)
+                t = ""
+
+        pathlist_list = []
+
+        for path in file_path_list:
+            t = ""
+            list = []
+            for i in range(len(path)):
+                if path[i]!='/':
+                    t = t + path[i]
+                else:
+                    list.append(t)
+                    t = ""
+            pathlist_list.append(list)
+
+        for path in pathlist_list:
+            for i in range(len(path)):
+                if i==0:
+                    try:
+                        link = Folder.objects.get(pk=pk)
+                        fol = Folder.objects.get(linkedfolder=link,name=path[i])
+                    except Folder.DoesNotExist:
+                        new_folder = Folder(name=path[i],linkedfolder=link,user=request.user)
+                        new_folder.save()
+                        path[i] = new_folder
+                    else:
+                        path[i] = fol
+                else:
+                    try:
+                        fol = Folder.objects.get(linkedfolder=path[i-1],name=path[i])
+                    except Folder.DoesNotExist:
+                        new_folder = Folder(name=path[i],linkedfolder=path[i-1],user=request.user)
+                        new_folder.save()
+                        path[i] = new_folder
+                    else:
+                        path[i] = fol
+
+
+        if form.is_valid():
+            index = 0
+            for field in request.FILES.keys():
+                for formfile in request.FILES.getlist(field):
+                    pa = pathlist_list[index]
+                    folder = pa[len(pa)-1]
+                    f = File(file=formfile,user=request.user,folder=folder )
+                    f.name = f.filename()
+                    f.save()
+                    index = index+1
+
+        return redirect('filesharing:detail',pk)
+    else:
+        form = FolderUploadForm(None)
+        return render(request,'filesharing/folder_upload.html',{'form':form})
 
 
 
