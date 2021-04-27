@@ -6,12 +6,22 @@ def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
     return 'user_{0}/{1}'.format(instance.user.id, filename)
 # Create your models here.
+class Folder(models.Model):
+    name = models.CharField(max_length=100,null=True,blank=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE, default=None)
+    linkedfolder=models.ForeignKey("self",on_delete=models.CASCADE,null=True,blank=True)
+    def get_absolute_url(self):
+        return reverse('fileshare:index')
+
+    def __str__(self):
+        return self.name
 class File(models.Model):
 
     name = models.CharField(max_length=100,null=True,blank=True)
-    file=models.FileField(upload_to=user_directory_path);
+    file=models.FileField(upload_to=user_directory_path)
     created_on = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE, default=None)
+    folder = models.ForeignKey(Folder, on_delete=models.CASCADE, null=True, blank=True)
     isprivate = models.BooleanField(default=False)
     def filename(self):
         return os.path.basename(self.file.name)
