@@ -30,25 +30,25 @@
                      <h4 class="list-group-item-text">{{ file.name}}</h4>
                       <p class="list-group-item-text">{{ file.created_on}}</p>
                      <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank"><button type="button" class="btn btn-primary">Preview</button> </a> </td>
-<<<<<<<<< Temporary merge branch 1
-                     <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                   <a class="list-group-item-text" href="{% url 'delete' file.pk %}" ><button type="button" class="btn btn-primary">Delete</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-=========
+
                      <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>
-                     <a class="list-group-item-text" href="{% url 'delete' file.pk %}" ><button type="button" class="btn btn-primary">Delete</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   <a class="list-group-item-text" href="{% url 'delete' file.pk %}" ><button type="button" class="btn btn-primary">Delete</button></a>
+
                      {% if file.isprivate %}
                         <a class="list-group-item-text" href="{% url 'makepublic' file.pk %}" ><button type="button" class="btn btn-primary">Make Public</button></a>
 
                      {% else %}
                          <a class="list-group-item-text" href="{% url 'makeprivate' file.pk %}" ><button type="button" class="btn btn-primary">Make Private</button></a>
                         {% endif %}
->>>>>>>>> Temporary merge branch 2
+
                  </div>
           </div>
 
       {% endfor %}
 
      </div>
+
+
       <div class="content1">
           <button type="button" id="button" class="btn btn-primary">Add File/Folder</button>
      </div>

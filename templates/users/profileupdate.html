@@ -1,16 +1,29 @@
-<html>
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Home</title>
+<link rel="stylesheet" type="text/css" href="{%  static "css/styles.css" %}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        p.solid {border-style: solid;}
+        h4{
+            border-bottom: 2px solid black;
+        }
+        .vl
+        {border-left: 2px solid black;
+         height: auto;
+        }
 
-<head>
 
-    <meta charset="UTF-8">
-    <title>
-        profile page
+}
+    </style>
+  </head>
 
-    </title>
-
-</head>
-
-<body>
+<body >
 <!--
 
     <form method="POST" action="" id="profilepage" enctype='multipart/form-data' >{%csrf_token%}
@@ -47,14 +60,51 @@
 
     </form>
 
- -->
+
 
  <form method="post"  enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form }}
+    {{ form|crispy }}
     <button type="submit">submit</button>
   </form>
+-->
+
+<form  method="post" enctype="multipart/form-data" >
+{% csrf_token %}
+  <div class="fieldWrapper">
+
+        <input id="pict" type="file" name="image" value={{ form.image }}
+      <img width="500" id="image"   />
+       <script>
+                 document.getElementById("pict").onchange = function () {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+        // get loaded data and render thumbnail.
+        document.getElementById("image").src = e.target.result;
+    };
+
+    // read the image file as a data URL.
+    reader.readAsDataURL(this.files[0]);
+};
+
+             </script>
+
+
+
+  </div>
+    <div class="fieldWrapper">
+        profilename:
+    {{ form.profilename }}
+    </div>
+
+       <button type="submit">submit</button>
+
+</form>
+
+
 
 </body>
 
+</html>
 </html>

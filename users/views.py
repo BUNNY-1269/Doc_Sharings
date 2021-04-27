@@ -61,10 +61,10 @@ def logout(request):
 def alreadythere(request):
     use=get_object_or_404(User,id=request.user.id)
     if profile.objects.filter(owner=use).count()==0 :
-        print(profile.objects.filter(owner=use),1)
+
         return redirect('profile')
     else:
-        print(profile.objects.filter(owner=use), 2)
+
         return redirect('home1')
 
 def profiles(request):
@@ -120,7 +120,7 @@ def createdprofile(request):
 
     use = get_object_or_404(User, id=request.user.id)
     p1=profile.objects.get(owner=use) 
-    print(p1)
+
     return render(request,'users/createdprofile.html',{'p1':p1})
 
 def oprofile(request,user):

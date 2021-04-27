@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
-    'filesharing'
+    'filesharing',
+    'crispy_forms'
 
 ]
 
@@ -132,3 +133,4 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+CRISPY_TEMPLATE_PACK = 'uni_form'
