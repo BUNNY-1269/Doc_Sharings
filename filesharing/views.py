@@ -356,7 +356,7 @@ def FolderUpload(request,pk):
         return redirect('filesharing:user-linked-files',pk)
     else:
         form = FolderUploadForm(None)
-        return render(request,'filesharing/linkedfolder.html',{'form':form})
+        return render(request,'filesharing/linkedfolderupload.html',{'form':form})
 
 
 
