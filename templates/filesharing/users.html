@@ -88,7 +88,7 @@ function myFunction(event) {
             <div class="article-metadata">
 
 
-                      <a href="{% url 'ousersfiles' u.username %}" class="list-group-item">
+                      <a href="{% url 'filesharing:ousersfiles' u.username %}" class="list-group-item">
                  <h4 class="list-group-item-heading" id="name" >{{ u.username }}</h4>
                   <p class="list-group-item-text">{{ u.email }}</p>
 

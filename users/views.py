@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404,reverse
 from django.http import HttpResponse
 
 from django.contrib import messages
@@ -59,13 +59,13 @@ def logout(request):
     return redirect('home')
 @login_required
 def alreadythere(request):
-    use=get_object_or_404(User,id=request.user.id)
-    if profile.objects.filter(owner=use).count()==0 :
+     use=get_object_or_404(User,id=request.user.id)
+     if profile.objects.filter(owner=use).count()==0 :
 
-        return redirect('profile')
-    else:
+         return redirect('profile')
+     else:
 
-        return redirect('home1')
+        return redirect('filesharing:home1')
 
 def profiles(request):
     if request.method=='POST':

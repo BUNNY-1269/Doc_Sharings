@@ -20,11 +20,38 @@
   <a href="createdprofile"><i class="fa fa-fw fa-address-card"></i>MY Profile</a>
   <a href="logout"><i class="fa fa-fw fa"></i>Logout</a>
 </div>
+
 <form class="example" action="action_page.php">
   <input type="text" placeholder="Search.." name="search">
   <button type="submit"><i class="fa fa-search"></i></button>
 </form>
-  <div class="content">
+
+
+
+{% if all_folders %}
+
+<div class="list-group">
+    <h2>Folders</h2>
+  {% for f in all_folders %}
+
+   <a href="{% url 'filesharing:detail' f.id %}" class="list-group-item list-group-item-action list-group-item-secondary "><i class='fas fa-folder'></i> {{ f }} </a>
+  {% endfor %}
+</div>
+
+
+{% else %}
+
+    <div class="list-group">
+  <h3> No folders here yet  </h3>
+      </div>
+
+{% endif %}
+
+
+
+
+{% if all_files %}
+       <div class="content">
       <div class="list-group">
       {% for file in all_files %}
           {% if file.isprivate %}
@@ -40,25 +67,19 @@
           </div>
           {% endif %}
       {% endfor %}
-     </div>
-  </div>
-<div class="content">
+      </div>
+       </div>
+
+{% else %}
+   <div class="content">
       <div class="list-group">
-      {% for folders in all_folders %}
+  <h3> There are no files </h3>
+    </div>
+    </div>
+{% endif %}
 
-            <div class="list-group">
-                 <div  class="list-group-item">
-                    <h4 class="list-group-item-text">{{ folders.name}}</h4>
 
-                     <a class="list-group-item-text" href="{{%url 'filesharing:detail' folders.id %}}" target="_blank"><button type="button" class="btn btn-primary">Preview</button> </a> </td>
-                     <a class="list-group-item-text" href="{{%url 'filesharing:detail' folders.id %}}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>
 
-                 </div>
-          </div>
-
-      {% endfor %}
-     </div>
-  </div>
   </body>
 </html>
 

@@ -32,13 +32,13 @@
                      <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank"><button type="button" class="btn btn-primary">Preview</button> </a> </td>
 
                      <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>
-                   <a class="list-group-item-text" href="{% url 'delete' file.pk %}" ><button type="button" class="btn btn-primary">Delete</button></a>
+                   <a class="list-group-item-text" href="{% url 'filesharing:delete' file.pk %}" ><button type="button" class="btn btn-primary">Delete</button></a>
 
                      {% if file.isprivate %}
-                        <a class="list-group-item-text" href="{% url 'makepublic' file.pk %}" ><button type="button" class="btn btn-primary">Make Public</button></a>
+                        <a class="list-group-item-text" href="{% url 'filesharing:makepublic' file.pk %}" ><button type="button" class="btn btn-primary">Make Public</button></a>
 
                      {% else %}
-                         <a class="list-group-item-text" href="{% url 'makeprivate' file.pk %}" ><button type="button" class="btn btn-primary">Make Private</button></a>
+                         <a class="list-group-item-text" href="{% url 'filesharing:makeprivate' file.pk %}" ><button type="button" class="btn btn-primary">Make Private</button></a>
                         {% endif %}
 
                  </div>
@@ -48,13 +48,19 @@
 
      </div>
 
+      <div>
+
+
+                      <a href="{% url 'filesharing:folder-upload-index' %}" class="list-group-item">
+                 <button type="button" >Create Folder</button> </a>
+  </div>
+
 
       <div class="content1">
           <button type="button" id="button" class="btn btn-primary">Add File/Folder</button>
      </div>
 
 
-    </div>
 
 
 
@@ -76,7 +82,7 @@
   <div class="bg-modal">
     <div class="modal-content">
         <div class="close">+</div>
-           <form action="uploadfile" method="POST"  enctype="multipart/form-data">
+           <form action='uploadfile' method="POST"  enctype="multipart/form-data">
              {% csrf_token %}
                <input type="file" name="file" >
              <button type="submit">Upload</button>
@@ -94,6 +100,8 @@
 
          }
   </script>
+
+
 
 
   </body>
