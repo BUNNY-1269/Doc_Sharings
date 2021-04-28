@@ -71,7 +71,7 @@
     <div class="content">
 <div class="list-group">
   {% for f in folders %}
-   <a href="{% url 'filesharing:insidefolders' f.id %}" class="list-group-item list-group-item-action list-group-item-secondary "><i class='fas fa-folder'></i> {{ f }} </a>
+   <a href="{% url 'filesharing:detail' f.id %}" class="list-group-item list-group-item-action list-group-item-secondary "><i class='fas fa-folder'></i> {{ f }} </a>
   {% endfor %}
   </div>
     </div>
