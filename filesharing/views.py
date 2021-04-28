@@ -30,7 +30,7 @@ def user_details(request,folder_id):
     folder = get_object_or_404(Folder,pk=folder_id)
     files = folder.file_set.all()
     folders = folder.folder_set.all()
-    print('user_details')
+
     # Try folder_set.all() when model is 'folder' instead of 'Folder'
     temp = folder
     parent_list = []
@@ -63,8 +63,9 @@ def user_details(request,folder_id):
 
 def insidefolders(request,folder_id):
      f=get_object_or_404(Folder,pk=folder_id)
-     files=f.folder_set.all()
+     files=f.file_set.all()
      folders=f.folder_set.all()
+
      temp=f
      parent_list=[]
      parent_list.append(temp)
