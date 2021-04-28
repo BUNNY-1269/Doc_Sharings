@@ -8,10 +8,29 @@ from .forms import DocumentForm,FolderUploadForm,FolderForm
 from django.views.generic.edit import FormView,DeleteView,UpdateView,CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-def detail(request,folder_id):
+# def detail(request,folder_id):
+#      folder = get_object_or_404(Folder,pk=folder_id)
+#      files = folder.file_set.all()
+#      folders = folder.folder_set.all()
+#      print('details')
+#      # Try folder_set.all() when model is 'folder' instead of 'Folder'
+#      temp = folder
+#      parent_list = []
+#      parent_list.append(temp)
+#      while temp.linkedfolder:
+#          parent = temp.linkedfolder
+#          parent_list.append(parent)
+#          temp = parent
+#      active_folder = parent_list[0]
+#      parent_list.reverse()
+#      context={'folder':folder,'folders':folders,'files':files,'folder_id':folder_id,'parent_list':parent_list,'active_folder':active_folder}
+#      return render(request,'filesharing/details.html',context)
+
+def user_details(request,folder_id):
     folder = get_object_or_404(Folder,pk=folder_id)
     files = folder.file_set.all()
     folders = folder.folder_set.all()
+    print('user_details')
     # Try folder_set.all() when model is 'folder' instead of 'Folder'
     temp = folder
     parent_list = []
@@ -23,7 +42,42 @@ def detail(request,folder_id):
     active_folder = parent_list[0]
     parent_list.reverse()
     context={'folder':folder,'folders':folders,'files':files,'folder_id':folder_id,'parent_list':parent_list,'active_folder':active_folder}
-    return render(request,'filesharing/details.html',context)
+    return render(request,'filesharing/user_linkedfiles.html',context)
+# def othersdetails(request,folder_id):
+#     folder = get_object_or_404(Folder,pk=folder_id)
+#     files = folder.file_set.all()
+#     folders = folder.folder_set.all()
+#     print('user_details')
+#     # Try folder_set.all() when model is 'folder' instead of 'Folder'
+#     temp = folder
+#     parent_list = []
+#     parent_list.append(temp)
+#     while temp.linkedfolder:
+#         parent = temp.linkedfolder
+#         parent_list.append(parent)
+#         temp = parent
+#     active_folder = parent_list[0]
+#     parent_list.reverse()
+#     context={'folder':folder,'folders':folders,'files':files,'folder_id':folder_id,'parent_list':parent_list,'active_folder':active_folder}
+#     return render(request,'filesharing/details.html',context)
+
+def insidefolders(request,folder_id):
+     f=get_object_or_404(Folder,pk=folder_id)
+     files=f.folder_set.all()
+     folders=f.folder_set.all()
+     temp=f
+     parent_list=[]
+     parent_list.append(temp)
+     while temp.linkedfolder:
+         parent=temp.linkedfolder
+         parent_list.append(parent)
+         temp=parent
+     active_f=parent_list[0]
+     parent_list.reverse()
+     context = {'folder': f, 'folders': folders, 'files': files, 'folder_id': folder_id, 'parent_list': parent_list,
+                'active_folder': active_f}
+     return render(request, 'filesharing/details.html', context)
+
 
 def home1(request):
     return render(request,'filesharing/home1.html')
@@ -54,10 +108,10 @@ def uploadfile(request):  #changed
                         f.save()
                 return redirect('filesharing:My_Files')
             else:
-                return render(request, 'filesharing/file_form.html', {'form': form})
+                return render(request, 'filesharing/uploadfile.html', {'form': form})
     else:
             form = DocumentForm(None)
-            return render(request, 'filesharing/file_form.html', {'form': form})
+            return render(request, 'filesharing/uploadfile.html', {'form': form})
 def uploadlinkedfile(request,pk):   #added
     if request.method == 'POST':
 
@@ -70,12 +124,12 @@ def uploadlinkedfile(request,pk):   #added
                     f.name = f.filename()
                     f.folder=Folder.objects.get(pk=pk)
                     f.save()
-            return redirect('filesharing:My_Files')
+                    return redirect('filesharing:user-linked-files', pk)
         else:
-            return render(request, 'filesharing/file_form.html', {'form': form})
+            return render(request, 'filesharing/uploadfile.html', {'form': form})
     else:
         form = DocumentForm(None)
-        return render(request, 'filesharing/file_form.html', {'form': form})
+        return render(request, 'filesharing/uploadfile.html', {'form': form})
 class FileDelete(DeleteView):
     model = File
 
@@ -98,7 +152,6 @@ def ousersfile(request,user):
     all_folders = user_folders.filter(linkedfolder__isnull=True)
     all_files = user_files.filter(folder__isnull=True)
     context = {'all_folders': all_folders, 'all_files': all_files}
-    print(all_folders)
     return render(request, 'filesharing/ousersfile.html', context)
 # def delete(request,pk):
 #     user = request.user
@@ -132,25 +185,47 @@ def makepublic(request,pk):
     return redirect('filesharing:My_Files')
 
 
-class FolderCreate(LoginRequiredMixin, CreateView):
-    model = Folder
-    fields = ['name']
+# class FolderCreate(LoginRequiredMixin, CreateView):
+#     model = Folder
+#     fields = ['name']
+#
+#     def form_valid(self, form):
+#         form.instance.user = self.request.user
+#         return super(FolderCreate,self).form_valid(form)
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super(FolderCreate, self).form_valid(form)
+def nolinkfolder(request):
+    if request.method == 'POST':
+        form=FolderForm(request.POST)
+        if form.is_valid():
+            f=form.save(commit=False)
+            folder=Folder(name=f.name,user=request.user)
+            folder.save()
+            return redirect('filesharing:My_Files')
+
+        else:
+            return render(request,'filesharing/uploadfolder.html',{'form':form})
+    else:
+            form=FolderForm(None)
+            return render(request,'filesharing/uploadfolder.html',{'form':form})
 
 
 def Folder_Create(request,pk):
-    form = FolderForm(None)
 
-    n = request.GET.get('name')
-    new_folder = form.save(commit=False)
-    new_folder.name = n
-    new_folder.linkedfolder = Folder.objects.get(pk=pk)
-    new_folder.user = request.user
-    new_folder.save()
-    return redirect('filesharing:detail',pk)
+
+     if request.method == 'POST':
+         form = FolderForm(request.POST)
+         if form.is_valid():
+             f = form.save(commit=False)
+             folder = Folder(name=f.name, user=request.user,linkedfolder=Folder.objects.get(pk=pk))
+             folder.save()
+             return redirect('filesharing:user-linked-files',pk)
+
+         else:
+             return render(request, 'filesharing/uploadfolder.html', {'form': form})
+     else:
+         form = FolderForm(None)
+         return render(request, 'filesharing/uploadfolder.html', {'form': form})
+
 
 def FolderUploadIndex(request):
     if request.method == 'POST':

@@ -9,6 +9,7 @@ class DocumentForm(forms.ModelForm):
 
 
 class FolderForm(forms.ModelForm):
+    name=forms.CharField(max_length=100)
     class Meta:
         model = Folder
         fields = ['name']

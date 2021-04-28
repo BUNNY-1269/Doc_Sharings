@@ -11,11 +11,12 @@ urlpatterns = [
       path('My_Files/<int:pk>',views.FileDelete.as_view(),name='delete'),
       path('My_Files/makeprivate/<int:pk>',views.makeprivate,name='makeprivate'),
       path('My_Files/makepublic/<int:pk>',views.makepublic,name='makepublic'),
-      path('uploadlinkedfile/<int:pk>',views.uploadlinkedfile,name='uploadlinkedfile'),
-      path('<int:folder_id>/', views.detail, name='detail'),
+      path('folder/<int:pk>/uploadlinkedfile',views.uploadlinkedfile,name='uploadlinkedfile'),
+      path('o/<int:folder_id>/', views.insidefolders, name='detail'),
       path('folder_upload/<int:pk>/', views.FolderUpload, name='folder-upload'),
       path('folder_upload_index/', views.FolderUploadIndex, name='folder-upload-index'),
-      path('folder/add/', views.FolderCreate.as_view(), name='folder-add'),
-      path('folder/add/<int:pk>',views.Folder_Create,name='linked-folder-add')
+      path('folder/add/', views.nolinkfolder, name='folder-add'),
+      path('folder/add/<int:pk>',views.Folder_Create,name='linked-folder-add'),
+      path('folder/<int:folder_id>/', views.user_details, name='user-linked-files')
 
 ]

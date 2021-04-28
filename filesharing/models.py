@@ -15,7 +15,7 @@ class Folder(models.Model):
         return  self.name
 
     def get_absolute_url(self):
-        return reverse('fileshare:index')
+        return reverse('fileshare:My_Files')
 class File(models.Model):
 
     name = models.CharField(max_length=100,null=True,blank=True)
@@ -33,9 +33,9 @@ class File(models.Model):
         file=File.objects.get(pk=self.pk)
         folders=file.folder
         if not folder :
-            return reverse('filesharing:index')
+            return reverse('filesharing:My_Files')
         else :
-            return reverse('filesharing:detail',kwargs={'folder_id':folders.pk})
+            return reverse('filesharing:user-linked-files',kwargs={'folder_id':folders.pk})
 
     def delete(self, *args, **kwargs):
         self.file.delete()

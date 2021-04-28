@@ -10,14 +10,15 @@
 
 
 </head>
-  <body>
+<body>
 <div class="sidebar">
-  <a href="home1"><i class="fa fa-fw fa-home"></i> Home</a>
-  <a class="active" href="My_Files"><i class="fa fa-fw fa-file"></i>My files</a>
-  <a href="allusers"><i class="fa fa-fw fa-user"></i>All Users</a>
-  <a href="createdprofile"><i class="fa fa-fw fa-address-card"></i>MY Profile</a>
-  <a href="logout"><i class="fa fa-fw fa"></i>Logout</a>
+  <a href="{% url 'filesharing:home1' %}"><i class="fa fa-fw fa-home"></i> Home</a>
+  <a  class="active" href="{% url 'filesharing:My_Files' %}"><i class="fa fa-fw fa-file"></i>My files</a>
+  <a  href="{% url 'filesharing:allusers' %}"><i class="fa fa-fw fa-user"></i>All Users</a>
+  <a href="{% url 'createdprofile' %}"><i class="fa fa-fw fa-address-card"></i>MY Profile</a>
+  <a href="{% url 'logout' %}"><i class="fa fa-fw fa"></i>Logout</a>
 </div>
+
 <form class="example" action="action_page.php">
   <input type="text" placeholder="Search.." name="search">
   <button type="submit"><i class="fa fa-search"></i></button>
@@ -52,7 +53,7 @@
     <h2>Folders</h2>
   {% for f in all_folders %}
 
-   <a href="{% url 'filesharing:detail' f.id %}" class="list-group-item list-group-item-action list-group-item-secondary "><i class='fas fa-folder'></i> {{ f }} </a>
+   <a href="{% url 'filesharing:user-linked-files' f.id %}" class="list-group-item list-group-item-action list-group-item-secondary "><i class='fas fa-folder'></i> {{ f }} </a>
   {% endfor %}
 </div>
 
