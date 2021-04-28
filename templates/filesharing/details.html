@@ -25,10 +25,9 @@
   <input type="text" placeholder="Search.." name="search">
   <button type="submit"><i class="fa fa-search"></i></button>
 </form>
-
- {% if files %}
-
-       <div class="list-group">
+<div class="content">
+{% if files %}
+  <div class="list-group">
       {% for file in files %}
             <div class="list-group">
                  <div class="list-group-item">
@@ -42,24 +41,23 @@
 
                  </div>
             </div>
-
-
-      {% endfor %}
+     {% endfor %}
           </div>
 {% endif %}
 
-
+<div class="list-group">
 <h2>Folders</h2>
 {% if folders %}
-    <div class="content">
-<div class="list-group">
-  {% for f in folders %}
+ <div class="list-group">
+   {% for f in folders %}
    <a href="{% url 'filesharing:detail' f.id %}" class="list-group-item list-group-item-action list-group-item-secondary "><i class='fas fa-folder'></i> {{ f }} </a>
   {% endfor %}
   </div>
-    </div>
-
 {% endif %}
+</div>
+</div>
+
+</div>
 
   </body>
 </html>
