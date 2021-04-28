@@ -294,8 +294,9 @@ def FolderUploadIndex(request):
 def FolderUpload(request,pk):
     if request.method == 'POST':
         form = FolderUploadForm(request.POST, request.FILES)
-        print(p)
+
         p = request.POST['path']
+        print(p)
         file_path_list = []
         t = ""
         for i in range(len(p)):
