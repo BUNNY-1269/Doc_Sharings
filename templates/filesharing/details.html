@@ -26,41 +26,27 @@
   <button type="submit"><i class="fa fa-search"></i></button>
 </form>
 
-      <div class="list-group">
+ {% if files %}
 
-{% if files %}
+       <div class="list-group">
+      {% for file in files %}
+            <div class="list-group">
+                 <div class="list-group-item">
+                     <h4 class="list-group-item-text">{{ file.name}}</h4>
+                      <p class="list-group-item-text">{{ file.created_on}}</p>
+                     <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank"><button type="button" class="btn btn-primary">Preview</button> </a> </td>
 
-     <tbody>
-         {% for file in files %}
-         <tr>
-           <td> <a href="{{ file.file.url }}" target="_blank"><i class="fas fa-file"></i> {{ file.name }} </a> </td>
-
-           <td>
-
-             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal{{file.pk}}">Delete </button>
-             <div class="modal" id="myModal{{file.pk}}">
-               <div class="modal-dialog">
-                 <div class="modal-content">
-                   <div class="modal-header">
-                     <h4 class="modal-title"> Delete </h4>
-                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                   </div>
-
-
+                     <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>
 
 
 
                  </div>
-               </div>
-             </div>
-           </td>
-         </tr>
-        {% endfor %}
-     </tbody>
- </div>
+            </div>
 
+
+      {% endfor %}
+          </div>
 {% endif %}
-     </div>
 
 
 <h2>Folders</h2>

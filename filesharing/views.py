@@ -139,7 +139,7 @@ class FileDelete(DeleteView):
         if not folder:
             return reverse('filesharing:My_Files')
         else:
-            return reverse_lazy('filesharing:detail',kwargs={'folder_id': folder.pk})
+            return reverse_lazy('filesharing:user-linked-files',kwargs={'folder_id': folder.pk})
 
     def get(self, *args, **kwargs):
             return self.post(*args, **kwargs)
@@ -289,14 +289,14 @@ def FolderUploadIndex(request):
         return redirect('filesharing:My_Files')
     else:
         form = FolderUploadForm(None)
-        return render(request,'filesharing/folder_upload.html',{'form':form})
+        return render(request,'filesharing/multiplefiles.html',{'form':form})
 
 def FolderUpload(request,pk):
     if request.method == 'POST':
         form = FolderUploadForm(request.POST, request.FILES)
 
         p = request.POST['path']
-        print(p)
+        print(p,1)
         file_path_list = []
         t = ""
         for i in range(len(p)):
@@ -356,7 +356,7 @@ def FolderUpload(request,pk):
         return redirect('filesharing:user-linked-files',pk)
     else:
         form = FolderUploadForm(None)
-        return render(request,'filesharing/linkedfolderupload.html',{'form':form})
+        return render(request,'filesharing/multiplefiles.html',{'form':form})
 
 
 

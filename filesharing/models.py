@@ -32,7 +32,7 @@ class File(models.Model):
     def get_absolute_url(self):
         file=File.objects.get(pk=self.pk)
         folders=file.folder
-        if not folder :
+        if not folders :
             return reverse('filesharing:My_Files')
         else :
             return reverse('filesharing:user-linked-files',kwargs={'folder_id':folders.pk})
