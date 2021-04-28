@@ -294,6 +294,7 @@ def FolderUploadIndex(request):
 def FolderUpload(request,pk):
     if request.method == 'POST':
         form = FolderUploadForm(request.POST, request.FILES)
+        print(p)
         p = request.POST['path']
         file_path_list = []
         t = ""
@@ -351,10 +352,10 @@ def FolderUpload(request,pk):
                     f.save()
                     index = index+1
 
-        return redirect('filesharing:detail',pk)
+        return redirect('filesharing:user-linked-files',pk)
     else:
         form = FolderUploadForm(None)
-        return render(request,'filesharing/folder_upload.html',{'form':form})
+        return render(request,'filesharing/linkedfolder.html',{'form':form})
 
 
 

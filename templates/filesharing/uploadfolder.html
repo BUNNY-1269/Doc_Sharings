@@ -1,0 +1,36 @@
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="{%  static "css/styles.css" %}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+</head>
+  <body>
+<div class="sidebar">
+  <a href="home1"><i class="fa fa-fw fa-home"></i> Home</a>
+  <a class="active" href="My_Files"><i class="fa fa-fw fa-file"></i>My files</a>
+  <a href="allusers"><i class="fa fa-fw fa-user"></i>All Users</a>
+  <a href="createdprofile"><i class="fa fa-fw fa-address-card"></i>MY Profile</a>
+  <a href="logout"><i class="fa fa-fw fa"></i>Logout</a>
+</div>
+<form class="example" action="action_page.php">
+  <input type="text" placeholder="Search.." name="search">
+  <button type="submit"><i class="fa fa-search"></i></button>
+</form>
+
+ <form method="post" class="example" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload</button>
+  </form>
+
+
+  </body>
+</html>

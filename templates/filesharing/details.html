@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+  <head>
+    <meta charset="utf-8">
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="{%  static "css/styles.css" %}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+</head>
+  <body>
+
+
+<div class="sidebar">
+  <a href="{% url 'filesharing:home1' %}"><i class="fa fa-fw fa-home"></i> Home</a>
+  <a   href="{% url 'filesharing:My_Files' %}"><i class="fa fa-fw fa-file"></i>My files</a>
+  <a  class="active" href="{% url 'filesharing:allusers' %}"><i class="fa fa-fw fa-user"></i>All Users</a>
+  <a href="{% url 'createdprofile' %}"><i class="fa fa-fw fa-address-card"></i>MY Profile</a>
+  <a href="{% url 'logout' %}"><i class="fa fa-fw fa"></i>Logout</a>
+</div>
+<form class="example" action="action_page.php">
+  <input type="text" placeholder="Search.." name="search">
+  <button type="submit"><i class="fa fa-search"></i></button>
+</form>
+
+      <div class="list-group">
+
+{% if files %}
+
+     <tbody>
+         {% for file in files %}
+         <tr>
+           <td> <a href="{{ file.file.url }}" target="_blank"><i class="fas fa-file"></i> {{ file.name }} </a> </td>
+
+           <td>
+
+             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal{{file.pk}}">Delete </button>
+             <div class="modal" id="myModal{{file.pk}}">
+               <div class="modal-dialog">
+                 <div class="modal-content">
+                   <div class="modal-header">
+                     <h4 class="modal-title"> Delete </h4>
+                     <button type="button" class="close" data-dismiss="modal">&times;</button>
+                   </div>
+
+                   <div class="modal-body"> Are you sure to delete ? </div>
+
+                   <div class="modal-footer">
+                     <button type="button" class="btn btn-light" data-dismiss="modal"> Cancel </button>
+                     <a href="{% url 'filesharing:delete' file.pk %}"> <button type="button" class="btn btn-danger"> Delete </button> </a>
+                   </div>
+
+                 </div>
+               </div>
+             </div>
+           </td>
+         </tr>
+        {% endfor %}
+     </tbody>
+ </div>
+
+{% endif %}
+     </div>
+
+
+<h2>Folders</h2>
+{% if folders %}
+    <div class="content">
+<div class="list-group">
+  {% for f in folders %}
+   <a href="{% url 'filesharing:insidefolders' f.id %}" class="list-group-item list-group-item-action list-group-item-secondary "><i class='fas fa-folder'></i> {{ f }} </a>
+  {% endfor %}
+  </div>
+    </div>
+
+{% endif %}
+
+  </body>
+</html>
+
