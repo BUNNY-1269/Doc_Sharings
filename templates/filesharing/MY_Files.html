@@ -22,7 +22,7 @@
   <input type="text" placeholder="Search.." name="search">
   <button type="submit"><i class="fa fa-search"></i></button>
 </form>
-  <div class="content">
+
       <div class="list-group">
       {% for file in all_files %}
             <div class="list-group">
@@ -42,16 +42,35 @@
                         {% endif %}
 
                  </div>
-          </div>
+
 
       {% endfor %}
+
+{% if all_folders %}
+
+<div class="list-group">
+    <h2>Folders</h2>
+  {% for f in all_folders %}
+
+   <a href="{% url 'filesharing:detail' f.id %}" class="list-group-item list-group-item-action list-group-item-secondary "><i class='fas fa-folder'></i> {{ f }} </a>
+  {% endfor %}
+</div>
+
+
+{% else %}
+
+    <div class="list-group">
+  <h3> No folders here yet  </h3>
+      </div>
+
+{% endif %}
 
      </div>
 
       <div>
 
 
-                      <a href="{% url 'filesharing:folder-upload-index' %}" class="list-group-item">
+                      <a href="{% url 'filesharing:folder-add' %}" class="list-group-item">
                  <button type="button" >Create Folder</button> </a>
   </div>
 

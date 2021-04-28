@@ -150,7 +150,7 @@ def Folder_Create(request,pk):
     new_folder.linkedfolder = Folder.objects.get(pk=pk)
     new_folder.user = request.user
     new_folder.save()
-    return redirect('fileshare:detail',pk)
+    return redirect('filesharing:detail',pk)
 
 def FolderUploadIndex(request):
     if request.method == 'POST':
