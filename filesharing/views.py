@@ -26,29 +26,13 @@ def user_details(request,folder_id):
     parent_list.reverse()
     context={'folder':folder,'folders':folders,'files':files,'folder_id':folder_id,'parent_list':parent_list,'active_folder':active_folder}
     return render(request,'filesharing/user_linkedfiles.html',context)
-# def othersdetails(request,folder_id):
-#     folder = get_object_or_404(Folder,pk=folder_id)
-#     files = folder.file_set.all()
-#     folders = folder.folder_set.all()
-#     print('user_details')
-#     # Try folder_set.all() when model is 'folder' instead of 'Folder'
-#     temp = folder
-#     parent_list = []
-#     parent_list.append(temp)
-#     while temp.linkedfolder:
-#         parent = temp.linkedfolder
-#         parent_list.append(parent)
-#         temp = parent
-#     active_folder = parent_list[0]
-#     parent_list.reverse()
-#     context={'folder':folder,'folders':folders,'files':files,'folder_id':folder_id,'parent_list':parent_list,'active_folder':active_folder}
-#     return render(request,'filesharing/details.html',context)
+
 
 def insidefolders(request,folder_id):
      f=get_object_or_404(Folder,pk=folder_id)
      files=f.file_set.all()
      folders=f.folder_set.all()
-
+     user=f.user
      temp=f
      parent_list=[]
      parent_list.append(temp)
@@ -59,7 +43,7 @@ def insidefolders(request,folder_id):
      active_f=parent_list[0]
      parent_list.reverse()
      context = {'folder': f, 'folders': folders, 'files': files, 'folder_id': folder_id, 'parent_list': parent_list,
-                'active_folder': active_f}
+                'active_folder': active_f,'user':user}
      return render(request, 'filesharing/details.html', context)
 
 
@@ -128,16 +112,7 @@ class FileDelete(DeleteView):
     def get(self, *args, **kwargs):
             return self.post(*args, **kwargs)
 
-# def FolderDelete(request,pk):
-#     folder=Folder.objects.get(pk=pk)
-#     f=folder.linkedfolder
-#     folder.delete()
-#     if not folder.linkedfolder:
-#
-#         return reverse('filesharing:My_Files')
-#     else:
-#
-#         return reverse('filesharing:user-linked-files',f.pk)
+
 class FolderDelete(DeleteView):
   model = Folder
 
@@ -161,13 +136,7 @@ def ousersfile(request,user):
     all_files = user_files.filter(folder__isnull=True)
     context = {'all_folders': all_folders, 'all_files': all_files,'user':ruser}
     return render(request, 'filesharing/ousersfile.html', context)
-# def delete(request,pk):
-#     user = request.user
-#     all_files = File.objects.filter(user=user)
-#     file=all_files.filter(pk=pk)
-#     file.delete()
-#
-#     return redirect('My_Files')
+
 
 def makeprivate(request,pk):
     user = request.user
@@ -191,15 +160,6 @@ def makepublic(request,pk):
     all_files = File.objects.filter(user=user)
     context = {'all_files': all_files, 'u': user}
     return redirect('filesharing:My_Files')
-
-
-# class FolderCreate(LoginRequiredMixin, CreateView):
-#     model = Folder
-#     fields = ['name']
-#
-#     def form_valid(self, form):
-#         form.instance.user = self.request.user
-#         return super(FolderCreate,self).form_valid(form)
 
 def nolinkfolder(request):
     if request.method == 'POST':

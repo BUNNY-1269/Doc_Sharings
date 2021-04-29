@@ -34,46 +34,7 @@
 
 <body>
 
-<!--
-    <form method="POST" action="" id="profilepage" >{%csrf_token%}
-         <div>
-         <label for="profilename">profilename </label>
-        <input type="text" id="profilename" name="profilename" >
-        <div/>
-             <div>
-         <label for="DOB">DOB </label>
-        <input type="date" id="DOB" name="DOB" >
-        <div/>
-                 <div>
-         <label for="college">college </label>
-        <input type="text" id="college" name="college" >
-        <div/>
-          <div>
-             <input type="file" id="pict" name="pict"  />
 
-<img width="500" id="image"   />
-             <script>
-                 document.getElementById("pict").onchange = function () {
-    var reader = new FileReader();
-
-    reader.onload = function (e) {
-        // get loaded data and render thumbnail.
-        document.getElementById("image").src = e.target.result;
-    };
-
-    // read the image file as a data URL.
-    reader.readAsDataURL(this.files[0]);
-};
-
-             </script>
-          </div>
-
-                 <div>
-                     <input type="submit" >
-                 </div>
-
-
-    </form>   --!>
         <form method="post"  enctype="multipart/form-data">
     {% csrf_token %}
     {{ form|crispy }}

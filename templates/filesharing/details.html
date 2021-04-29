@@ -30,6 +30,7 @@
 </form>
 <div class="content">
  <ol class="breadcrumb">
+ <li class="breadcrumb-item"> <a href="{% url 'filesharing:allusers' %}"> {{ user.username }} </a> </li>
   {% for parent in parent_list %}
     {% if parent is not active_folder %}
       <li class="breadcrumb-item"> <a href="{% url 'filesharing:detail' parent.id %}"> {{ parent }}</a> </li>
