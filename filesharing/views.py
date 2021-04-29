@@ -236,7 +236,7 @@ def FolderUploadIndex(request):
         file_path_list = []
         t = ""
         for i in range(len(p)):
-            if p[i]!=" ":
+            if p[i]!=",":
                 t = t+p[i]
             else:
                 file_path_list.append(t)
@@ -303,7 +303,7 @@ def FolderUpload(request,pk):
         file_path_list = []
         t = ""
         for i in range(len(p)):
-            if p[i]!=" ":
+            if p[i]!=",":
                 t = t+p[i]
             else:
                 file_path_list.append(t)
