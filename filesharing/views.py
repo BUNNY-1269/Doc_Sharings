@@ -8,23 +8,7 @@ from .forms import DocumentForm,FolderUploadForm,FolderForm
 from django.views.generic.edit import FormView,DeleteView,UpdateView,CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-# def detail(request,folder_id):
-#      folder = get_object_or_404(Folder,pk=folder_id)
-#      files = folder.file_set.all()
-#      folders = folder.folder_set.all()
-#      print('details')
-#      # Try folder_set.all() when model is 'folder' instead of 'Folder'
-#      temp = folder
-#      parent_list = []
-#      parent_list.append(temp)
-#      while temp.linkedfolder:
-#          parent = temp.linkedfolder
-#          parent_list.append(parent)
-#          temp = parent
-#      active_folder = parent_list[0]
-#      parent_list.reverse()
-#      context={'folder':folder,'folders':folders,'files':files,'folder_id':folder_id,'parent_list':parent_list,'active_folder':active_folder}
-#      return render(request,'filesharing/details.html',context)
+
 
 def user_details(request,folder_id):
     folder = get_object_or_404(Folder,pk=folder_id)
@@ -281,7 +265,7 @@ def FolderUploadIndex(request):
             for i in range(len(path)):
                 if i==0:
                     try:
-                        fol = Folder.objects.get(linkedfolder__isnull=True,name=path[i])
+                        fol = Folder.objects.get(linkedfolder__isnull=True,name=path[i],user=request.user)
                     except Folder.DoesNotExist:
                         new_folder = Folder(name=path[i],user=request.user)
                         new_folder.save()
