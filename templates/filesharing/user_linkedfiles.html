@@ -75,7 +75,13 @@
                  <a href="{% url 'filesharing:user-linked-files' f.id %}" class="list-group-item list-group-item-action list-group-item-secondary "><i class='fas fa-folder'></i> {{ f }} </a>
                    <a  href="{% url 'filesharing:folder-delete' f.id %}" ><button type="button" class="btn btn-primary">Delete</button></a>
                        <a class="list-group-item-text" href="{% url 'filesharing:download_folder' f.id %}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  {% if  f.starf %}
+                      <a class="list-group-item-text" href="{% url 'filesharing:removestayfolder' f.id %}" ><button type="button" class="btn btn-primary">Remove From Favourites</button></a>
 
+                {% else %}
+                 <a class="list-group-item-text" href="{% url 'filesharing:starredfolder' f.id %}" ><button type="button" class="btn btn-primary">Add to Favourites</button></a>
+
+                 {% endif %}
 
           </div>
         </div>

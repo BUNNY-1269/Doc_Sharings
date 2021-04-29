@@ -22,6 +22,9 @@ urlpatterns = [
       path('download_folder/<int:pk>/',views.download_folder,name='download_folder'),
       path('<int:pk>/',views.starredfile,name='starredfile'),
       path('remove/<int:pk>/',views.removestar,name='removestar'),
-      path('stay/<int:pk>/',views.removestarstay,name='removestay')
+      path('stay/<int:pk>/',views.removestarstay,name='removestay'),
+      path('starfolder/<int:pk>/',views.starredfolder,name='starredfolder'),
+      path('folder/remove/<int:pk>/',views.removestarfolder,name='removestarfolder'),
+      path('folder/stay/<int:pk>/',views.removestarstayfolder,name='removestayfolder'),
 
 ]

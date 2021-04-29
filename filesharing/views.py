@@ -13,30 +13,81 @@ from django.utils.text import slugify
 
 def starredfile(request,pk):
     f=File.objects.get(pk=pk)
+    user=f.user
     folder=f.folder
     f.star=True
     f.save()
+    print(f)
     if not folder:
-        return redirect('filesharing:My_Files')
+         if user==request.user:
+           return redirect('filesharing:My_Files')
+         else :
+           return redirect('filesharing:ousersfiles',user)
     else:
-        return redirect('filesharing:user-linked-files',folder.pk)
+        if user==request.user:
+         return redirect('filesharing:user-linked-files',folder.pk)
+        else :
+         return redirect('filesharing:detail', folder.pk)
+def starredfolder(request,pk):
+    f=Folder.objects.get(pk=pk)
+    folder=f.linkedfolder
+    user=f.user
+    f.starf=True
 
+    f.save()
+    print(f.starf)
+    if not folder:
+         if user==request.user:
+           return redirect('filesharing:My_Files')
+         else :
+           return redirect('filesharing:ousersfiles',user)
+    else:
+        if user==request.user:
+         return redirect('filesharing:user-linked-files',folder.pk)
+        else :
+         return redirect('filesharing:detail', folder.pk)
 def removestar(request,pk):
     f=File.objects.get(pk=pk)
     f.star=False
     f.save()
     return redirect('filesharing:home1')
-
+def removestarfolder(request,pk):
+    f=Folder.objects.get(pk=pk)
+    f.starf=False
+    f.save()
+    return redirect('filesharing:home1')
 def removestarstay(request,pk):
     f = File.objects.get(pk=pk)
     folder = f.folder
+    user=f.user
     f.star = False
     f.save()
     if not folder:
-        return redirect('filesharing:My_Files')
+         if user==request.user:
+           return redirect('filesharing:My_Files')
+         else :
+           return redirect('filesharing:ousersfiles',user)
     else:
-        return redirect('filesharing:user-linked-files', folder.pk)
-
+        if user==request.user:
+         return redirect('filesharing:user-linked-files',folder.pk)
+        else :
+         return redirect('filesharing:detail', folder.pk)
+def removestarstayfolder(request,pk):
+    f = Folder.objects.get(pk=pk)
+    folder = f.linkedfolder
+    f.starf = False
+    user=f.user
+    f.save()
+    if not folder:
+         if user==request.user:
+           return redirect('filesharing:My_Files')
+         else :
+           return redirect('filesharing:ousersfiles',user)
+    else:
+        if user==request.user:
+         return redirect('filesharing:user-linked-files',folder.pk)
+        else :
+         return redirect('filesharing:detail', folder.pk)
 def user_details(request,folder_id):
     folder = get_object_or_404(Folder,pk=folder_id)
     files = folder.file_set.all()
@@ -76,16 +127,16 @@ def insidefolders(request,folder_id):
 
 def home1(request):
     try:
-        files=File.objects.filter(user=request.user,star=True)
-        print(files)
-    except File.DoesNotExist:
+        files=File.objects.filter(star=True)
+        folders=Folder.objects.filter(starf=True)
+        context={'folders':folders,'files':files}
+    except File.DoesNotExist and Folder.DoesNotExist :
         files=None
-
-
-    return render(request,'filesharing/home1.html',{'files':files})
+        folders=None
+    return render(request,'filesharing/home1.html',context)
 
 def allusers(request):
-    all_users = User.objects.all();
+    all_users = User.objects.all()
     current_user = request.user
     return render(request, 'filesharing/users.html', {'all_users': all_users, 'current_user': current_user})
 def My_Files(request):
@@ -236,7 +287,7 @@ def FolderUploadIndex(request):
         file_path_list = []
         t = ""
         for i in range(len(p)):
-            if p[i]!=" ":
+            if p[i]!=",":
                 t = t+p[i]
             else:
                 file_path_list.append(t)
@@ -303,7 +354,7 @@ def FolderUpload(request,pk):
         file_path_list = []
         t = ""
         for i in range(len(p)):
-            if p[i]!=" ":
+            if p[i]!=",":
                 t = t+p[i]
             else:
                 file_path_list.append(t)

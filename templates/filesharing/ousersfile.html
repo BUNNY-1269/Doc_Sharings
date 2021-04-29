@@ -34,7 +34,12 @@
                <div class="list-group-item">
                    <a href="{% url 'filesharing:detail' f.id %}" class="list-group-item list-group-item-action list-group-item-secondary "><i class='fas fa-folder'></i> {{ f }} </a>
                    <a class="list-group-item-text" href="{% url 'filesharing:download_folder' f.id %}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               {% if not f.starf %}
+                 <a class="list-group-item-text" href="{% url 'filesharing:starredfolder' f.id  %}" ><button type="button" class="btn btn-primary">Add to Favourites</button></a>
+                {% else %}
+                     <a class="list-group-item-text" href="{% url 'filesharing:removestayfolder' f.id %}" ><button type="button" class="btn btn-primary">Remove From Favourites</button></a>
 
+                 {% endif %}
                </div>
           </div>
    {% endfor %}
@@ -52,7 +57,13 @@
                  <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank"><button type="button" class="btn btn-primary">Preview</button> </a> </td>
 
                  <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              </div>
+                {% if not file.star %}
+                 <a class="list-group-item-text" href="{% url 'filesharing:starredfile' file.pk  %}" ><button type="button" class="btn btn-primary">Add to Favourites</button></a>
+                {% else %}
+                     <a class="list-group-item-text" href="{% url 'filesharing:removestay' file.pk %}" ><button type="button" class="btn btn-primary">Remove From Favourites</button></a>
+
+                 {% endif %}
+             </div>
         </div>
  {% endfor %}
  </div>
