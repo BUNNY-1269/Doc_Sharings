@@ -65,7 +65,9 @@
  <div class="list-group">
    {% for f in folders %}
    <a href="{% url 'filesharing:detail' f.id %}" class="list-group-item list-group-item-action list-group-item-secondary "><i class='fas fa-folder'></i> {{ f }} </a>
-  {% endfor %}
+       <a class="list-group-item-text" href="{% url 'filesharing:download_folder' f.id %}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+   {% endfor %}
   </div>
 {% endif %}
 </div>

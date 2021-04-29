@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect,reverse,get_object_or_404
+from django.shortcuts import render, redirect,reverse,get_object_or_404,HttpResponse
 from django.urls import reverse_lazy
 from django.contrib import messages
 # Create your views here.
@@ -7,9 +7,9 @@ from .models import File,Folder
 from .forms import DocumentForm,FolderUploadForm,FolderForm
 from django.views.generic.edit import FormView,DeleteView,UpdateView,CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-
-
+import zipfile
+import os, io
+from django.utils.text import slugify
 def user_details(request,folder_id):
     folder = get_object_or_404(Folder,pk=folder_id)
     files = folder.file_set.all()
@@ -332,5 +332,63 @@ def FolderUpload(request,pk):
         return render(request,'filesharing/multiplefiles.html',{'form':form})
 
 
+def download_folder(request,pk):
+    folder = get_object_or_404(Folder, pk=pk)
+    folder_name = folder.name
+    zip_subdir = folder_name
+    zip_filename = zip_subdir + ".zip"
+    byte_stream = io.BytesIO()
+    zf = zipfile.ZipFile(byte_stream, "w")
+
+    folder_list = Folder.objects.filter(linkedfolder=folder)
+    file_list = File.objects.filter(folder=folder)
+
+    zf = zip_them_all(file_list,folder_list,zip_subdir,zf)
+
+    zf.close()
+    response = HttpResponse(byte_stream.getvalue(), content_type="application/x-zip-compressed")
+    response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+    return response
+
+def zip_them_all(file_list,folder_list,zip_path,zf):
+    for p in file_list:
+        item = p
+        file_name, file_extension = os.path.splitext(item.file.file.name)
+        file_extension = file_extension[1:] # removes dot
+        x = -1*len(file_extension)
+        response = HttpResponse(item.file.file,
+            content_type = "file/%s" % file_extension)
+        response["Content-Disposition"] = "attachment;"\
+            "filename=%s.%s" %(slugify(item.name)[:x], file_extension)
+
+        filename = slugify(item.name)[:x]
+        filename = filename + "." + file_extension
+        f1 = open(filename , 'wb')
+        f1.write(response.content)
+        f1.close()
+
+        pa = os.path.join(zip_path,filename)
+        zf.write(filename,pa, zipfile.ZIP_DEFLATED)
+
+    # This loop is to remove those files which are being created due to f1.write()
+    for p in file_list:
+        item = p
+        file_name, file_extension = os.path.splitext(item.file.file.name)
+        file_extension = file_extension[1:] # removes dot
+        x = -1*len(file_extension)
+        filename = slugify(item.name)[:x]
+        filename = filename + "." + file_extension
+
+        location = os.path.abspath(filename)
+        os.remove(location)
 
 
+    for p in folder_list:
+        dir = p.name
+        z_path = os.path.join(zip_path, dir)
+        fo_list = Folder.objects.filter(linkedfolder=p)
+        fi_list = File.objects.filter(folder=p)
+        zf = zip_them_all(fi_list,fo_list,z_path,zf)
+
+
+    return zf
