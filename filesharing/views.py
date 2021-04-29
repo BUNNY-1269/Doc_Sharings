@@ -30,7 +30,6 @@ def user_details(request,folder_id):
     folder = get_object_or_404(Folder,pk=folder_id)
     files = folder.file_set.all()
     folders = folder.folder_set.all()
-
     # Try folder_set.all() when model is 'folder' instead of 'Folder'
     temp = folder
     parent_list = []
@@ -143,6 +142,30 @@ class FileDelete(DeleteView):
             return reverse_lazy('filesharing:user-linked-files',kwargs={'folder_id': folder.pk})
 
     def get(self, *args, **kwargs):
+            return self.post(*args, **kwargs)
+
+# def FolderDelete(request,pk):
+#     folder=Folder.objects.get(pk=pk)
+#     f=folder.linkedfolder
+#     folder.delete()
+#     if not folder.linkedfolder:
+#
+#         return reverse('filesharing:My_Files')
+#     else:
+#
+#         return reverse('filesharing:user-linked-files',f.pk)
+class FolderDelete(DeleteView):
+  model = Folder
+
+  def get_success_url(self):
+        f = Folder.objects.get(pk=self.kwargs['pk'])
+        folder = f.linkedfolder
+        if not folder:
+            return reverse('filesharing:My_Files')
+        else:
+            return reverse_lazy('filesharing:user-linked-files',kwargs={'folder_id': folder.pk})
+
+  def get(self, *args, **kwargs):
             return self.post(*args, **kwargs)
 
 
@@ -297,6 +320,7 @@ def FolderUpload(request,pk):
         form = FolderUploadForm(request.POST, request.FILES)
 
         p = request.POST['path']
+        print(p)
         print(p,1)
         file_path_list = []
         t = ""
@@ -347,12 +371,16 @@ def FolderUpload(request,pk):
             index = 0
             for field in request.FILES.keys():
                 for formfile in request.FILES.getlist(field):
-                    pa = pathlist_list[index]
+                  pa = pathlist_list[index]
+                  if((len(pa)-1)>0):
+                    print(len(pa)-1)
+                    print(pa)
                     folder = pa[len(pa)-1]
+
                     f = File(file=formfile,user=request.user,folder=folder )
                     f.name = f.filename()
                     f.save()
-                    index = index+1
+                  index = index+1
 
         return redirect('filesharing:user-linked-files',pk)
     else:

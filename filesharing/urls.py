@@ -17,6 +17,7 @@ urlpatterns = [
       path('folder_upload_index/', views.FolderUploadIndex, name='folder-upload-index'),
       path('folder/add/', views.nolinkfolder, name='folder-add'),
       path('folder/add/<int:pk>',views.Folder_Create,name='linked-folder-add'),
-      path('folder/<int:folder_id>/', views.user_details, name='user-linked-files')
+      path('folder/<int:folder_id>/', views.user_details, name='user-linked-files'),
+      path('My_Folder/<int:pk>',views.FolderDelete.as_view(), name='folder-delete')
 
 ]
