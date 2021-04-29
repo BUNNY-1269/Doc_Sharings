@@ -13,16 +13,7 @@
 </head>
   <body>
 
- <ol class="breadcrumb">
-  <li class="breadcrumb-item"> <a href="{% url 'filesharing:My_Files' %}"> {{ user.username }} </a> </li>
-  {% for parent in parent_list %}
-    {% if parent is not active_folder %}
-      <li class="breadcrumb-item"> <a href="{% url 'filesharing:user-linked-files' parent.id %}"> {{ parent }}</a> </li>
-    {% else %}
-    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'filesharing:user-linked-files' parent.id %}" style="color:black"> {{ parent }}</a></li>
-    {% endif %}
-  {% endfor %}
-</ol>
+
 
 <div class="sidebar">
   <a href="{% url 'filesharing:home1' %}"><i class="fa fa-fw fa-home"></i> Home</a>
@@ -38,6 +29,16 @@
 
 
 <div class="content">
+ <ol class="breadcrumb">
+  <li class="breadcrumb-item"> <a href="{% url 'filesharing:My_Files' %}"> {{ user.username }} </a> </li>
+  {% for parent in parent_list %}
+    {% if parent is not active_folder %}
+      <li class="breadcrumb-item"> <a href="{% url 'filesharing:user-linked-files' parent.id %}"> {{ parent }}</a> </li>
+    {% else %}
+    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'filesharing:user-linked-files' parent.id %}" style="color:black"> {{ parent }}</a></li>
+    {% endif %}
+  {% endfor %}
+</ol>
 {% if files %}
 <div class="list-group">
       {% for file in files %}

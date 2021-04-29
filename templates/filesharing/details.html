@@ -14,6 +14,7 @@
   <body>
 
 
+
 <div class="sidebar">
   <a href="{% url 'filesharing:home1' %}"><i class="fa fa-fw fa-home"></i> Home</a>
   <a   href="{% url 'filesharing:My_Files' %}"><i class="fa fa-fw fa-file"></i>My files</a>
@@ -21,11 +22,23 @@
   <a href="{% url 'createdprofile' %}"><i class="fa fa-fw fa-address-card"></i>MY Profile</a>
   <a href="{% url 'logout' %}"><i class="fa fa-fw fa"></i>Logout</a>
 </div>
+
+
 <form class="example" action="action_page.php">
   <input type="text" placeholder="Search.." name="search">
   <button type="submit"><i class="fa fa-search"></i></button>
 </form>
 <div class="content">
+ <ol class="breadcrumb">
+  {% for parent in parent_list %}
+    {% if parent is not active_folder %}
+      <li class="breadcrumb-item"> <a href="{% url 'filesharing:detail' parent.id %}"> {{ parent }}</a> </li>
+    {% else %}
+    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'filesharing:detail' parent.id %}" style="color:black"> {{ parent }}</a></li>
+    {% endif %}
+  {% endfor %}
+</ol>
+
 {% if files %}
   <div class="list-group">
       {% for file in files %}

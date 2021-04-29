@@ -159,7 +159,7 @@ def ousersfile(request,user):
     user_files = File.objects.filter(user=ruser)
     all_folders = user_folders.filter(linkedfolder__isnull=True)
     all_files = user_files.filter(folder__isnull=True)
-    context = {'all_folders': all_folders, 'all_files': all_files}
+    context = {'all_folders': all_folders, 'all_files': all_files,'user':ruser}
     return render(request, 'filesharing/ousersfile.html', context)
 # def delete(request,pk):
 #     user = request.user

@@ -23,10 +23,13 @@
 </form>
 
 <div class="content">
+ <ol class="breadcrumb">
+  <li class="breadcrumb-item"> <a href="{% url 'filesharing:allusers' %}"> {{ user.username }} </a> </li>
+  </ol>
 <div class="list-group">
 <h2>Folders</h2>
 {% if all_folders %}
-  {% for f in all_folders %}
+    {% for f in all_folders %}
           <div class="list-group">
                <div class="list-group-item">
                    <a href="{% url 'filesharing:detail' f.id %}" class="list-group-item list-group-item-action list-group-item-secondary "><i class='fas fa-folder'></i> {{ f }} </a>
