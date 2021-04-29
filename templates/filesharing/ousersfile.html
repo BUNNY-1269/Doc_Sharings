@@ -1,18 +1,14 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-
-  <head>
+<head>
     <meta charset="utf-8">
     <title>Home</title>
     <link rel="stylesheet" type="text/css" href="{%  static "css/styles.css" %}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-
 </head>
-  <body>
-
+<body>
 <div class="sidebar">
   <a href="home1"><i class="fa fa-fw fa-home"></i> Home</a>
   <a  href="My_Files"><i class="fa fa-fw fa-file"></i>My files</a>
@@ -26,51 +22,56 @@
   <button type="submit"><i class="fa fa-search"></i></button>
 </form>
 
-
-
+<div class="content">
+<div class="list-group">
+<h2>Folders</h2>
 {% if all_folders %}
+  {% for f in all_folders %}
+          <div class="list-group">
+               <div class="list-group-item">
+                   <a href="{% url 'filesharing:detail' f.id %}" class="list-group-item list-group-item-action list-group-item-secondary "><i class='fas fa-folder'></i> {{ f }} </a>
+               </div>
+          </div>
+   {% endfor %}
+{% else %}
+<h5>No folders here</h5>
+{% endif %}
 
 <div class="list-group">
-    <h2>Folders</h2>
-  {% for f in all_folders %}
+  <h2>Files</h2>
+  {% for file in all_files %}
+        <div class="list-group">
+             <div class="list-group-item">
+                 <h4 class="list-group-item-text">{{ file.name}}</h4>
+                  <p class="list-group-item-text">{{ file.created_on}}</p>
+                 <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank"><button type="button" class="btn btn-primary">Preview</button> </a> </td>
 
-   <a href="{% url 'filesharing:detail' f.id %}" class="list-group-item list-group-item-action list-group-item-secondary "><i class='fas fa-folder'></i> {{ f }} </a>
-  {% endfor %}
+                 <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </div>
+        </div>
+ {% endfor %}
+ </div>
 </div>
-
-
-
-
-{% endif %}
-
-
-
-
-{% if all_files %}
-       <div class="content">
-      <div class="list-group">
-      {% for file in all_files %}
-          {% if file.isprivate %}
-          {% else %}
-            <div class="list-group">
-                 <div  class="list-group-item">
-                    <h4 class="list-group-item-text">{{ file.name}}</h4>
-                      <p class="list-group-item-text">{{ file.created_on}}</p>
-                     <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank"><button type="button" class="btn btn-primary">Preview</button> </a> </td>
-                     <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-                 </div>
-          </div>
-          {% endif %}
-      {% endfor %}
-      </div>
-       </div>
-
-
-{% endif %}
-
-
-
-  </body>
+</div>
+</body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

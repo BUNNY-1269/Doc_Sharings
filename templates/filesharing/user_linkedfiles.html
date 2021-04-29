@@ -26,61 +26,51 @@
 </form>
 
 
-
+<div class="content">
 {% if files %}
-
-       <div class="list-group">
+<div class="list-group">
       {% for file in files %}
             <div class="list-group">
                  <div class="list-group-item">
                      <h4 class="list-group-item-text">{{ file.name}}</h4>
                       <p class="list-group-item-text">{{ file.created_on}}</p>
-                     <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank"><button type="button" class="btn btn-primary">Preview</button> </a> </td>
-
-                     <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>
-                   <a class="list-group-item-text" href="{% url 'filesharing:delete' file.pk %}" ><button type="button" class="btn btn-primary">Delete</button></a>
-
-                     {% if file.isprivate %}
+                      <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank"><button type="button" class="btn btn-primary">Preview</button> </a> </td>
+                      <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>
+                      <a class="list-group-item-text" href="{% url 'filesharing:delete' file.pk %}" ><button type="button" class="btn btn-primary">Delete</button></a>
+                      {% if file.isprivate %}
                         <a class="list-group-item-text" href="{% url 'filesharing:makepublic' file.pk %}" ><button type="button" class="btn btn-primary">Make Public</button></a>
-
-                     {% else %}
+                      {% else %}
                          <a class="list-group-item-text" href="{% url 'filesharing:makeprivate' file.pk %}" ><button type="button" class="btn btn-primary">Make Private</button></a>
-                        {% endif %}
-
-                 </div>
-
-
+                      {% endif %}
+                </div>
+            </div>
       {% endfor %}
-          </div>
+    </div>
 {% endif %}
-
-
-
-<h2>Folders</h2>
-{% if folders %}
 
 <div class="list-group">
-  {% for f in folders %}
-   <a href="{% url 'filesharing:user-linked-files' f.id %}" class="list-group-item list-group-item-action list-group-item-secondary "><i class='fas fa-folder'></i> {{ f.name }} </a>
-  {% endfor %}
-  </div>
+ <h2>Folders</h2>
+{% if folders %}
+{% for f in folders %}
+        <div class="list-group">
+             <div class="list-group-item">
+                 <a href="{% url 'filesharing:user-linked-files' f.id %}" class="list-group-item list-group-item-action list-group-item-secondary "><i class='fas fa-folder'></i> {{ f }} </a>
+                   <a  href="{% url 'filesharing:folder-delete' f.id %}" ><button type="button" class="btn btn-primary">Delete</button></a>
+   
+          </div>
+        </div>
+ {% endfor %}
 
+ {% endif %}
+ </div>
 
-{% endif %}
-
-<div>
+<div class="content1">
     <a href="{% url 'filesharing:linked-folder-add' active_folder.id %}" class="list-group-item">
-                 <button type="button" >Create Folder</button> </a>
-  </div>
-<div>
+    <button type="button" class="btn btn-primary" >Create Folder</button> </a>
     <a href="{% url 'filesharing:folder-upload' active_folder.id %}" class="list-group-item">
-                 <button type="button" >Upload folder Folder</button> </a>
-  </div>
-
-
-      <div class="content1">
-          <button type="button" id="button" class="btn btn-primary">Add File/Folder</button>
-     </div>
+    <button type="button" class="btn btn-primary">Upload Folder</button> </a>
+    <button type="button" id="button" class="btn btn-primary">Add File/Folder</button>
+</div>
 
 
 
@@ -121,7 +111,7 @@
 
          }
   </script>
-
+</div>
   </body>
 </html>
 

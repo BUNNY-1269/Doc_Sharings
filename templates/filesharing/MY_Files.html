@@ -7,126 +7,123 @@
     <link rel="stylesheet" type="text/css" href="{%  static "css/styles.css" %}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-
 </head>
+
 <body>
 <div class="sidebar">
-  <a href="{% url 'filesharing:home1' %}"><i class="fa fa-fw fa-home"></i> Home</a>
-  <a  class="active" href="{% url 'filesharing:My_Files' %}"><i class="fa fa-fw fa-file"></i>My files</a>
-  <a  href="{% url 'filesharing:allusers' %}"><i class="fa fa-fw fa-user"></i>All Users</a>
-  <a href="{% url 'createdprofile' %}"><i class="fa fa-fw fa-address-card"></i>MY Profile</a>
-  <a href="{% url 'logout' %}"><i class="fa fa-fw fa"></i>Logout</a>
-</div>
-
+  <a href="home1"><i class="fa fa-fw fa-home"></i> Home</a>
+  <a class="active" href="My_Files"><i class="fa fa-fw fa-file"></i>My files</a>
+  <a href="allusers"><i class="fa fa-fw fa-user"></i>All Users</a>
+  <a href="createdprofile"><i class="fa fa-fw fa-address-card"></i>MY Profile</a>
+  <a href="logout"><i class="fa fa-fw fa"></i>Logout</a>
+ </div>
 <form class="example" action="action_page.php">
   <input type="text" placeholder="Search.." name="search">
   <button type="submit"><i class="fa fa-search"></i></button>
 </form>
+<div class="content">
+  <div class="list-group">
+  <h2>Files</h2>
+  {% for file in all_files %}
+        <div class="list-group">
+             <div class="list-group-item">
+                 <h4 class="list-group-item-text">{{ file.name}}</h4>
+                  <p class="list-group-item-text">{{ file.created_on}}</p>
+                 <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank"><button type="button" class="btn btn-primary">Preview</button> </a> </td>
 
-      <div class="list-group">
-      {% for file in all_files %}
-            <div class="list-group">
-                 <div class="list-group-item">
-                     <h4 class="list-group-item-text">{{ file.name}}</h4>
-                      <p class="list-group-item-text">{{ file.created_on}}</p>
-                     <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank"><button type="button" class="btn btn-primary">Preview</button> </a> </td>
+                 <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>
+               <a class="list-group-item-text" href="{% url 'filesharing:delete' file.pk %}" ><button type="button" class="btn btn-primary">Delete</button></a>
 
-                     <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>
-                   <a class="list-group-item-text" href="{% url 'filesharing:delete' file.pk %}" ><button type="button" class="btn btn-primary">Delete</button></a>
+                 {% if file.isprivate %}
+                    <a class="list-group-item-text" href="{% url 'filesharing:makepublic' file.pk %}" ><button type="button" class="btn btn-primary">Make Public</button></a>
 
-                     {% if file.isprivate %}
-                        <a class="list-group-item-text" href="{% url 'filesharing:makepublic' file.pk %}" ><button type="button" class="btn btn-primary">Make Public</button></a>
+                 {% else %}
+                     <a class="list-group-item-text" href="{% url 'filesharing:makeprivate' file.pk %}" ><button type="button" class="btn btn-primary">Make Private</button></a>
+                    {% endif %}
 
-                     {% else %}
-                         <a class="list-group-item-text" href="{% url 'filesharing:makeprivate' file.pk %}" ><button type="button" class="btn btn-primary">Make Private</button></a>
-                        {% endif %}
+             </div>
+        </div>
+ {% endfor %}
+ </div>
 
-                 </div>
-
-
-      {% endfor %}
-          </div>
+ <div class="list-group">
+ <h2>Folders</h2>
 {% if all_folders %}
+{% for f in all_folders %}
+        <div class="list-group">
+             <div class="list-group-item">
+                 <a href="{% url 'filesharing:detail' f.id %}" class="list-group-item list-group-item-action list-group-item-secondary "><i class='fas fa-folder'></i> {{ f }} </a>
+                      <a  href="{% url 'filesharing:folder-delete' f.id %}" ><button type="button" class="btn btn-primary">Delete</button></a>
+  
+          </div>
+        </div>
+ {% endfor %}
+ {% else %}
+ <h5>No folders here</h5>
+ {% endif %}
+ </div>
 
-<div class="list-group">
-    <h2>Folders</h2>
-  {% for f in all_folders %}
 
-   <a href="{% url 'filesharing:user-linked-files' f.id %}" class="list-group-item list-group-item-action list-group-item-secondary "><i class='fas fa-folder'></i> {{ f }} </a>
-  {% endfor %}
+
+
+
+
+
+
+
+<div class="content1">
+  <a  href="{% url 'filesharing:folder-add' %}" class="list-group-item">
+      <button type="button" class="btn btn-primary" >Create Folder</button></a>
+   <a href="{% url 'filesharing:folder-upload-index'  %}" class="list-group-item">
+       <button type="button" class="btn btn-primary">Upload  Folder</button> </a> 
+    
+   <button type="button" id="button" class="btn btn-primary">Add File/Folder</button>
+</div>
+</div>
+<script>
+  var el= document.getElementById('button')
+      if(el)
+      {
+          el.addEventListener('click',function(){
+          document.querySelector('.bg-modal').style.display='flex';
+         });
+
+      }
+</script>
+
+<div class="bg-modal">
+  <div class="modal-content">
+      <div class="close">+</div>
+         <form action='uploadfile' method="POST"  enctype="multipart/form-data">
+           {% csrf_token %}
+             <input type="file" name="file" >
+           <button type="submit">Upload</button>
+         </form>
+
+
+  </div>
 </div>
 
+<script>
+    var el = document.querySelector('.close')
+       if(el) {
+           el.addEventListener('click', function () {
+               document.querySelector('.bg-modal').style.display = 'none';
+           });
 
-{% else %}
+       }
+</script>
 
-    <div class="list-group">
-  <h3> No folders here yet  </h3>
-      </div>
-
-{% endif %}
-
-     </div>
-
-      <div>
-
-
-                      <a href="{% url 'filesharing:folder-add' %}" class="list-group-item">
-                 <button type="button" >Create Folder</button> </a>
-  </div>
-
-      <div>
-    <a href="{% url 'filesharing:folder-upload-index'  %}" class="list-group-item">
-                 <button type="button" >Upload folder Folder</button> </a>
-
-      <div class="content1">
-          <button type="button" id="button" class="btn btn-primary">Add File/Folder</button>
-     </div>
-
-
-
-
-
-
-
-   <script>
-     var el= document.getElementById('button')
-         if(el)
-         {
-             el.addEventListener('click',function(){
-             document.querySelector('.bg-modal').style.display='flex';
-            });
-
-         }
-   </script>
-
-
-
-  <div class="bg-modal">
-    <div class="modal-content">
-        <div class="close">+</div>
-           <form action='uploadfile' method="POST"  enctype="multipart/form-data">
-             {% csrf_token %}
-               <input type="file" name="file" >
-             <button type="submit">Upload</button>
-           </form>
-
-
-    </div>
-  </div>
-  <script>
-      var el = document.querySelector('.close')
-         if(el) {
-             el.addEventListener('click', function () {
-                 document.querySelector('.bg-modal').style.display = 'none';
-             });
-
-         }
-  </script>
-
-
-
-
-  </body>
+</body>
 </html>
+
+
+
+
+
+
+
+
+
+
 
