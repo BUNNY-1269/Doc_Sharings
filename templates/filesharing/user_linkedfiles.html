@@ -49,7 +49,13 @@
                       <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank"><button type="button" class="btn btn-primary">Preview</button> </a> </td>
                       <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>
                       <a class="list-group-item-text" href="{% url 'filesharing:delete' file.pk %}" ><button type="button" class="btn btn-primary">Delete</button></a>
-                      {% if file.isprivate %}
+                       {% if not file.star %}
+                           <a class="list-group-item-text" href="{% url 'filesharing:starredfile' file.pk %}" ><button type="button" class="btn btn-primary">Add to Favourites</button></a>
+                       {% else %}
+                           <a class="list-group-item-text" href="{% url 'filesharing:removestay' file.pk %}" ><button type="button" class="btn btn-primary">Remove From Favourites</button></a>
+
+                       {% endif %}
+                     {% if file.isprivate %}
                         <a class="list-group-item-text" href="{% url 'filesharing:makepublic' file.pk %}" ><button type="button" class="btn btn-primary">Make Public</button></a>
                       {% else %}
                          <a class="list-group-item-text" href="{% url 'filesharing:makeprivate' file.pk %}" ><button type="button" class="btn btn-primary">Make Private</button></a>
@@ -69,6 +75,7 @@
                  <a href="{% url 'filesharing:user-linked-files' f.id %}" class="list-group-item list-group-item-action list-group-item-secondary "><i class='fas fa-folder'></i> {{ f }} </a>
                    <a  href="{% url 'filesharing:folder-delete' f.id %}" ><button type="button" class="btn btn-primary">Delete</button></a>
                        <a class="list-group-item-text" href="{% url 'filesharing:download_folder' f.id %}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
           </div>
         </div>

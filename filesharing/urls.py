@@ -19,6 +19,9 @@ urlpatterns = [
       path('folder/add/<int:pk>',views.Folder_Create,name='linked-folder-add'),
       path('folder/<int:folder_id>/', views.user_details, name='user-linked-files'),
       path('My_Folder/<int:pk>',views.FolderDelete.as_view(), name='folder-delete'),
-      path('download_folder/<int:pk>/',views.download_folder,name='download_folder')
+      path('download_folder/<int:pk>/',views.download_folder,name='download_folder'),
+      path('<int:pk>/',views.starredfile,name='starredfile'),
+      path('remove/<int:pk>/',views.removestar,name='removestar'),
+      path('stay/<int:pk>/',views.removestarstay,name='removestay')
 
 ]

@@ -10,6 +10,33 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 import zipfile
 import os, io
 from django.utils.text import slugify
+
+def starredfile(request,pk):
+    f=File.objects.get(pk=pk)
+    folder=f.folder
+    f.star=True
+    f.save()
+    if not folder:
+        return redirect('filesharing:My_Files')
+    else:
+        return redirect('filesharing:user-linked-files',folder.pk)
+
+def removestar(request,pk):
+    f=File.objects.get(pk=pk)
+    f.star=False
+    f.save()
+    return redirect('filesharing:home1')
+
+def removestarstay(request,pk):
+    f = File.objects.get(pk=pk)
+    folder = f.folder
+    f.star = False
+    f.save()
+    if not folder:
+        return redirect('filesharing:My_Files')
+    else:
+        return redirect('filesharing:user-linked-files', folder.pk)
+
 def user_details(request,folder_id):
     folder = get_object_or_404(Folder,pk=folder_id)
     files = folder.file_set.all()
@@ -48,7 +75,14 @@ def insidefolders(request,folder_id):
 
 
 def home1(request):
-    return render(request,'filesharing/home1.html')
+    try:
+        files=File.objects.filter(user=request.user,star=True)
+        print(files)
+    except File.DoesNotExist:
+        files=None
+
+
+    return render(request,'filesharing/home1.html',{'files':files})
 
 def allusers(request):
     all_users = User.objects.all();

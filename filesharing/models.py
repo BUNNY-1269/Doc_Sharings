@@ -24,6 +24,7 @@ class File(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE, default=None)
     folder=models.ForeignKey(Folder,null=True,on_delete=models.CASCADE,blank=True)
     isprivate = models.BooleanField(default=False)
+    star=models.BooleanField(default=False)
     def filename(self):
         return os.path.basename(self.file.name)
 

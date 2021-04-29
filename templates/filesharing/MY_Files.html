@@ -29,17 +29,22 @@
              <div class="list-group-item">
                  <h4 class="list-group-item-text">{{ file.name}}</h4>
                   <p class="list-group-item-text">{{ file.created_on}}</p>
-                 <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank"><button type="button" class="btn btn-primary">Preview</button> </a> </td>
+                <td> <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank"><button type="button" class="btn btn-primary">Preview</button> </a> </td>
 
                  <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>
                <a class="list-group-item-text" href="{% url 'filesharing:delete' file.pk %}" ><button type="button" class="btn btn-primary">Delete</button></a>
+                 {% if not file.star %}
+                 <a class="list-group-item-text" href="{% url 'filesharing:starredfile' file.pk %}" ><button type="button" class="btn btn-primary">Add to Favourites</button></a>
+                {% else %}
+                     <a class="list-group-item-text" href="{% url 'filesharing:removestay' file.pk %}" ><button type="button" class="btn btn-primary">Remove From Favourites</button></a>
 
+                 {% endif %}
                  {% if file.isprivate %}
                     <a class="list-group-item-text" href="{% url 'filesharing:makepublic' file.pk %}" ><button type="button" class="btn btn-primary">Make Public</button></a>
 
                  {% else %}
                      <a class="list-group-item-text" href="{% url 'filesharing:makeprivate' file.pk %}" ><button type="button" class="btn btn-primary">Make Private</button></a>
-                    {% endif %}
+                  {% endif %}
 
              </div>
         </div>
