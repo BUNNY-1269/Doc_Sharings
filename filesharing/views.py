@@ -2,8 +2,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect,reverse,get_object_or_404,HttpResponse
 from django.urls import reverse_lazy
 from django.contrib import messages
-# Create your views here.
-from .models import File,Folder
+
+from .models import File,Folder,fav
 from .forms import DocumentForm,FolderUploadForm,FolderForm
 from django.views.generic.edit import FormView,DeleteView,UpdateView,CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -12,61 +12,71 @@ import os, io
 from django.utils.text import slugify
 
 def starredfile(request,pk):
-    f=File.objects.get(pk=pk)
-    user=f.user
-    folder=f.folder
-    f.star=True
-    f.save()
-    print(f)
+    file=File.objects.get(pk=pk)
+    user = file.user
+    try:
+        f=fav.objects.get(user=request.user,sfile_id=file.id)
+
+    except fav.DoesNotExist:
+        f = fav(user=request.user, sfile_id=file.id)
+        f.save()
+    folder=file.folder
     if not folder:
-         if user==request.user:
-           return redirect('filesharing:My_Files')
-         else :
-           return redirect('filesharing:ousersfiles',user)
+     if user==request.user:
+        return redirect('filesharing:My_Files')
+     else :
+        return redirect('filesharing:ousersfiles',user)
     else:
-        if user==request.user:
-         return redirect('filesharing:user-linked-files',folder.pk)
-        else :
-         return redirect('filesharing:detail', folder.pk)
+     if user==request.user:
+        return redirect('filesharing:user-linked-files',folder.pk)
+     else :
+        return redirect('filesharing:detail', folder.pk)
 def starredfolder(request,pk):
-    f=Folder.objects.get(pk=pk)
-    folder=f.linkedfolder
-    user=f.user
-    f.starf=True
+
+    folder = Folder.objects.get(pk=pk)
+    user1 = folder.user
+    try:
+        f = fav.objects.get(user=request.user, sfolder_id=folder.id)
+
+    except fav.DoesNotExist:
+        f = fav(user=request.user, sfolder_id=folder.id)
+        f.save()
+
+    linkfolder = folder.linkedfolder
 
     f.save()
-    print(f.starf)
-    if not folder:
-         if user==request.user:
+
+    if not linkfolder:
+         if user1==request.user:
            return redirect('filesharing:My_Files')
          else :
-           return redirect('filesharing:ousersfiles',user)
+           return redirect('filesharing:ousersfiles',user1)
     else:
-        if user==request.user:
-         return redirect('filesharing:user-linked-files',folder.pk)
+        if user1==request.user:
+         return redirect('filesharing:user-linked-files',linkfolder.pk)
         else :
-         return redirect('filesharing:detail', folder.pk)
+         return redirect('filesharing:detail', linkfolder.pk)
 def removestar(request,pk):
-    f=File.objects.get(pk=pk)
-    f.star=False
-    f.save()
+    file = File.objects.get(pk=pk)
+    f=fav.objects.filter(user=request.user,sfile=file.id)
+    f.delete()
     return redirect('filesharing:home1')
 def removestarfolder(request,pk):
-    f=Folder.objects.get(pk=pk)
-    f.starf=False
-    f.save()
+    folder = Folder.objects.get(pk=pk)
+    f = fav.objects.filter(user=request.user, sfolder=folder.id)
+    f.delete()
     return redirect('filesharing:home1')
 def removestarstay(request,pk):
-    f = File.objects.get(pk=pk)
-    folder = f.folder
-    user=f.user
-    f.star = False
-    f.save()
+    file = File.objects.get(pk=pk)
+    folder=file.folder
+    user=file.user
+    f = fav.objects.filter(user=request.user, sfile=file.id)
+    f.delete()
     if not folder:
          if user==request.user:
            return redirect('filesharing:My_Files')
          else :
-           return redirect('filesharing:ousersfiles',user)
+           return redirect('filesharing:ousersfiles',folder.user)
     else:
         if user==request.user:
          return redirect('filesharing:user-linked-files',folder.pk)
@@ -75,9 +85,9 @@ def removestarstay(request,pk):
 def removestarstayfolder(request,pk):
     f = Folder.objects.get(pk=pk)
     folder = f.linkedfolder
-    f.starf = False
     user=f.user
-    f.save()
+    foli = fav.objects.filter(user=request.user, sfolder=f.id)
+    foli.delete()
     if not folder:
          if user==request.user:
            return redirect('filesharing:My_Files')
@@ -89,10 +99,37 @@ def removestarstayfolder(request,pk):
         else :
          return redirect('filesharing:detail', folder.pk)
 def user_details(request,folder_id):
+    f = fav.objects.filter(user=request.user)
+    files = f
+
+    fi = set(())
+    fold = set(())
+    for i in range(len(files)):
+        if files[i].sfile:
+            fi.add(files[i].sfile.id)
+        elif files[i].sfolder:
+            fold.add(files[i].sfolder.id)
+
+
     folder = get_object_or_404(Folder,pk=folder_id)
     files = folder.file_set.all()
     folders = folder.folder_set.all()
-    # Try folder_set.all() when model is 'folder' instead of 'Folder'
+    favfiles=[]
+    notfavfiles=[]
+    favfolders=[]
+    notfavfolders=[]
+    for i in range(len(files)):
+        if files[i].id in fi :
+            favfiles.append(files[i])
+        else:
+             notfavfiles.append(files[i])
+    for i in range(len(folders)):
+        if folders[i].id in fold :
+            favfolders.append(folders[i])
+        else:
+             notfavfolders.append(folders[i])
+
+
     temp = folder
     parent_list = []
     parent_list.append(temp)
@@ -102,39 +139,90 @@ def user_details(request,folder_id):
         temp = parent
     active_folder = parent_list[0]
     parent_list.reverse()
-    context={'folder':folder,'folders':folders,'files':files,'folder_id':folder_id,'parent_list':parent_list,'active_folder':active_folder}
+    print(notfavfiles)
+    context={'folder':folder,'folders':favfolders,'notfavfolders':notfavfolders,'files':favfiles,'notfav':notfavfiles,'folder_id':folder_id,'parent_list':parent_list,'active_folder':active_folder}
     return render(request,'filesharing/user_linkedfiles.html',context)
 
 
 def insidefolders(request,folder_id):
-     f=get_object_or_404(Folder,pk=folder_id)
-     files=f.file_set.all()
-     folders=f.folder_set.all()
-     user=f.user
-     temp=f
-     parent_list=[]
-     parent_list.append(temp)
-     while temp.linkedfolder:
+    f = fav.objects.filter(user=request.user)
+    files = f
+
+    fi = set(())
+    fold = set(())
+    for i in range(len(files)):
+        if files[i].sfile:
+            fi.add(files[i].sfile.id)
+        elif files[i].sfolder:
+            fold.add(files[i].sfolder.id)
+
+    folder = get_object_or_404(Folder, pk=folder_id)
+    files = folder.file_set.all()
+    folders = folder.folder_set.all()
+    favfiles = []
+    notfavfiles = []
+    favfolders = []
+    notfavfolders = []
+    for i in range(len(files)):
+        if files[i].id in fi :
+            favfiles.append(files[i])
+        else:
+             notfavfiles.append(files[i])
+    for i in range(len(folders)):
+        if folders[i].id in fold:
+            favfolders.append(folders[i])
+        else:
+            notfavfolders.append(folders[i])
+    user=folder.user
+    temp=folder
+    parent_list=[]
+    parent_list.append(temp)
+    while temp.linkedfolder:
          parent=temp.linkedfolder
          parent_list.append(parent)
          temp=parent
-     active_f=parent_list[0]
-     parent_list.reverse()
-     context = {'folder': f, 'folders': folders, 'files': files, 'folder_id': folder_id, 'parent_list': parent_list,
+    active_f=parent_list[0]
+    parent_list.reverse()
+    context = {'folder': folder, 'folders': favfolders,'notfavfolders':notfavfolders, 'files': favfiles,'notfav':notfavfiles, 'folder_id': folder_id, 'parent_list': parent_list,
                 'active_folder': active_f,'user':user}
-     return render(request, 'filesharing/details.html', context)
+    return render(request, 'filesharing/details.html', context)
 
 
 def home1(request):
-    try:
-        files=File.objects.filter(star=True)
-        folders=Folder.objects.filter(starf=True)
-        context={'folders':folders,'files':files}
-    except File.DoesNotExist and Folder.DoesNotExist :
-        files=None
-        folders=None
-    return render(request,'filesharing/home1.html',context)
 
+    try:
+     f=fav.objects.filter(user=request.user)
+     files=f
+
+     fi=[]
+     fold=[]
+     for i in range(len(files)):
+        if  files[i].sfile :
+         fi.append(files[i].sfile.id)
+        elif files[i].sfolder :
+          fold.append(files[i].sfolder.id)
+     fo=[]
+     folder=[]
+     for i in range(len(fi)):
+         fo.append(File.objects.get(pk=fi[i]))
+     for i in range(len(fold)):
+         folder.append(Folder.objects.get(pk=fold[i]))
+
+     ofo=[]
+     ufo=[]
+
+     for i in range(len(folder)):
+         temp=folder[i]
+         if  temp.user==request.user:
+             ufo.append(folder[i])
+         else:
+              ofo.append(folder[i])
+
+     context = {'folders': ofo,'files':ofo,'ufolders':ufo}
+    except File.DoesNotExist and Folder.DoesNotExist:
+     files=None
+     folders=None
+    return render(request, 'filesharing/home1.html', context)
 def allusers(request):
     all_users = User.objects.all()
     current_user = request.user
@@ -145,10 +233,35 @@ def My_Files(request):
     all_folders = Folder.objects.filter(user=user)
     top_folder = all_folders.filter(linkedfolder__isnull=True)
     top_file = all_files.filter(folder__isnull=True)
-    context = {'all_files': top_file, 'all_folders': top_folder}
+    f = fav.objects.filter(user=request.user)
+    files = f
+
+    fi = set(())
+    fold = set(())
+    for i in range(len(files)):
+        if files[i].sfile:
+            fi.add(files[i].sfile.id)
+        elif files[i].sfolder:
+            fold.add(files[i].sfolder.id)
+
+    favfiles = []
+    notfavfiles = []
+    favfolders = []
+    notfavfolders = []
+    for i in range(len(top_file)):
+        if top_file[i].id in fi:
+            favfiles.append(top_file[i])
+        else:
+            notfavfiles.append(top_file[i])
+    for i in range(len(top_folder)):
+        if top_folder[i].id in fold:
+            favfolders.append(top_folder[i])
+        else:
+            notfavfolders.append(top_folder[i])
+    context = {'all_files': favfiles, 'notfav':notfavfiles,'all_folders': favfolders,'notfavfolders':notfavfolders}
 
     return render(request, 'filesharing/MY_Files.html', context)
-def uploadfile(request):  #changed
+def uploadfile(request):
     if request.method =='POST':
 
             form = DocumentForm(request.POST, request.FILES)
@@ -165,7 +278,7 @@ def uploadfile(request):  #changed
     else:
             form = DocumentForm(None)
             return render(request, 'filesharing/uploadfile.html', {'form': form})
-def uploadlinkedfile(request,pk):   #added
+def uploadlinkedfile(request,pk):
     if request.method == 'POST':
 
         form = DocumentForm(request.POST, request.FILES)
@@ -217,9 +330,36 @@ def ousersfile(request,user):
     ruser=User.objects.get(username=user)
     user_folders = Folder.objects.filter(user=ruser)
     user_files = File.objects.filter(user=ruser)
-    all_folders = user_folders.filter(linkedfolder__isnull=True)
-    all_files = user_files.filter(folder__isnull=True)
-    context = {'all_folders': all_folders, 'all_files': all_files,'user':ruser}
+    top_folders = user_folders.filter(linkedfolder__isnull=True)
+    top_files = user_files.filter(folder__isnull=True)
+    f = fav.objects.filter(user=request.user)
+    files = f
+
+    fi = set(())
+    fold = set(())
+    for i in range(len(files)):
+        if files[i].sfile:
+            fi.add(files[i].sfile.id)
+        elif files[i].sfolder:
+            fold.add(files[i].sfolder.id)
+
+    favfiles = []
+    notfavfiles = []
+    favfolders = []
+    notfavfolders = []
+    for i in range(len(top_files)):
+        if top_files[i].id in fi:
+            favfiles.append(top_files[i])
+        else:
+            notfavfiles.append(top_files[i])
+    for i in range(len(top_folders)):
+        if top_folders[i].id in fold:
+            favfolders.append(top_folders[i])
+        else:
+            notfavfolders.append(top_folders[i])
+    context = {'all_files': favfiles, 'notfav': notfavfiles, 'all_folders': favfolders, 'notfavfolders': notfavfolders,'user':ruser}
+
+
     return render(request, 'filesharing/ousersfile.html', context)
 
 
@@ -439,7 +579,7 @@ def zip_them_all(file_list,folder_list,zip_path,zf):
     for p in file_list:
         item = p
         file_name, file_extension = os.path.splitext(item.file.file.name)
-        file_extension = file_extension[1:] # removes dot
+        file_extension = file_extension[1:]
         x = -1*len(file_extension)
         response = HttpResponse(item.file.file,
             content_type = "file/%s" % file_extension)
@@ -455,11 +595,11 @@ def zip_them_all(file_list,folder_list,zip_path,zf):
         pa = os.path.join(zip_path,filename)
         zf.write(filename,pa, zipfile.ZIP_DEFLATED)
 
-    # This loop is to remove those files which are being created due to f1.write()
+
     for p in file_list:
         item = p
         file_name, file_extension = os.path.splitext(item.file.file.name)
-        file_extension = file_extension[1:] # removes dot
+        file_extension = file_extension[1:]
         x = -1*len(file_extension)
         filename = slugify(item.name)[:x]
         filename = filename + "." + file_extension

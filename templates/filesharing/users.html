@@ -7,11 +7,7 @@
     <link rel="stylesheet" type="text/css" href={% static "css/styles.css" %}/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-{#<!-- jQuery library -->#}
-{#<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>#}
-{##}
-{#<!-- Latest compiled JavaScript -->#}
-{#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>#}
+
 </head>
   <body>
 <div class="sidebar">
@@ -22,10 +18,7 @@
   <a href="logout"><i class="fa fa-fw fa"></i>Logout</a>
 </div>
 
-<form class="example" action="action_page.php">
-  <input type="text" placeholder="Search.." name="search">
-  <button type="submit"><i class="fa fa-search"></i></button>
-</form>
+
  <script type="application/javascript"href="js/jquery-1.11.3.min.js">
 function myFunction(event) {
     event.preventDefault();
@@ -52,27 +45,7 @@ function myFunction(event) {
 
   <div class="content">
 
-{##}
-{#     <div class="list-group">#}
-{#      {% for u in all_users %}#}
-{#        {% if not u.pk is current_user.pk %}#}
-{#            <div class="w3-light-green">#}
-{#            <div class="list-group">#}
-{#               <div class = "image-parent">#}
-{#                    <img class="rounded-circle article-img" width="100" height = "100" src="{{ u.profile.image.url }}">#}
-{#               </div>#}
-{#                 <a href="{% url 'ousersfiles' u.username %}" class="list-group-item">#}
-{#                 <h4 class="list-group-item-heading" id="name" >{{ u.username }}</h4>#}
-{#                  <p class="list-group-item-text">{{ u.email }}</p>#}
-{##}
-{##}
-{#                 </a>#}
-{#          </div>#}
-{#            </div>#}
-{#        {% endif %}#}
-{#      {% endfor %}#}
-{#     </div>#}
-{#  </div>#}
+
 
 
                 {% for u in all_users %}

@@ -1,3 +1,70 @@
+{#{% load static %}#}
+{#<!DOCTYPE html>#}
+{#<html lang="en" dir="ltr">#}
+{#  <head>#}
+{#    <meta charset="utf-8">#}
+{#    <title>Home</title>#}
+{#    <link rel="stylesheet" type="text/css" href="{%  static "css/styles.css" %}"/>#}
+{#    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">#}
+{#    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">#}
+{##}
+{##}
+{#</head>#}
+{#  <body>#}
+{#<div class="sidebar">#}
+{#  <a class="active" href="home1"><i class="fa fa-fw fa-home"></i> Home</a>#}
+{#  <a href="My_Files"><i class="fa fa-fw fa-file"></i>My files</a>#}
+{#  <a href="allusers"><i class="fa fa-fw fa-user"></i>All Users</a>#}
+{#  <a href="createdprofile"><i class="fa fa-fw fa-address-card"></i>MY Profile</a>#}
+{#  <a href="logout"><i class="fa fa-fw fa"></i>Logout</a>#}
+{#</div>#}
+{##}
+{#<div class="content">#}
+{#  <div class="list-group">#}
+{#  <h2>Favourites</h2>#}
+{#  {% for kai in files %}#}
+{#        <div class="list-group">#}
+{#             <div class="list-group-item">#}
+{#                 <h4 class="list-group-item-text">{{ kai.name}}</h4>#}
+{##}
+{#                 <a class="list-group-item-text" href="{{ kai.file.url }}" target="_blank"><button type="button" class="btn btn-primary">Preview</button> </a> </td>#}
+{##}
+{#                 <a class="list-group-item-text" href="{{ kai.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>#}
+{#                      <a class="list-group-item-text" href="{% url 'filesharing:removestar' kai.id %}" ><button type="button" class="btn btn-primary">Remove From Favourites</button></a>#}
+{##}
+{##}
+{##}
+{#             </div>#}
+{#        </div>#}
+{# {% endfor %}#}
+{# </div>#}
+{##}
+{##}
+{##}
+{#<div class="list-group">#}
+{# <h2>Folders</h2>#}
+{#{% if folders %}#}
+{#{% for f in folders %}#}
+{#        <div class="list-group">#}
+{#             <div class="list-group-item">#}
+{#                 <a style="font-size:25px;color:black"  href="{% url 'filesharing:user-linked-files' f.id %}" class="list-group-item list-group-item-action list-group-item-secondary "><i class='fas fa-folder'></i> {{ f }} </a>#}
+{#                   <a class="list-group-item-text" href="{% url 'filesharing:folder-delete' f.id %}" ><button type="button" class="btn btn-primary">Delete</button></a>#}
+{#                       <a class="list-group-item-text" href="{% url 'filesharing:download_folder' f.id %}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#}
+{##}
+{#                     <a class="list-group-item-text" href="{% url 'filesharing:removestarfolder' f.id %}" ><button type="button" class="btn btn-primary">Remove From Favourites</button></a>#}
+{##}
+{##}
+{##}
+{#          </div>#}
+{#        </div>#}
+{# {% endfor %}#}
+{##}
+{# {% endif %}#}
+{# </div>#}
+{##}
+{#  </body>#}
+{#</html>#}
+{##}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -6,66 +73,85 @@
     <title>Home</title>
     <link rel="stylesheet" type="text/css" href="{%  static "css/styles.css" %}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 
-</head>
-  <body>
-<div class="sidebar">
+
+  </head>
+
+<body>
+<div   class="sidebar">
   <a class="active" href="home1"><i class="fa fa-fw fa-home"></i> Home</a>
   <a href="My_Files"><i class="fa fa-fw fa-file"></i>My files</a>
   <a href="allusers"><i class="fa fa-fw fa-user"></i>All Users</a>
   <a href="createdprofile"><i class="fa fa-fw fa-address-card"></i>MY Profile</a>
   <a href="logout"><i class="fa fa-fw fa"></i>Logout</a>
-</div>
+ </div>
+
 
 <div class="content">
   <div class="list-group">
-  <h2>Favourites</h2>
+  <h2>Files</h2>
   {% for file in files %}
         <div class="list-group">
              <div class="list-group-item">
                  <h4 class="list-group-item-text">{{ file.name}}</h4>
-
-                 <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank"><button type="button" class="btn btn-primary">Preview</button> </a> </td>
+                  <p class="list-group-item-text">{{ file.created_on}}</p>
+                <td> <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank"><button type="button" class="btn btn-primary">Preview</button> </a> </td>
 
                  <a class="list-group-item-text" href="{{ file.file.url }}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>
-               <a class="list-group-item-text" href="{% url 'filesharing:delete' file.pk %}" ><button type="button" class="btn btn-primary">Delete</button></a>
-                 <a class="list-group-item-text" href="{% url 'filesharing:removestar' file.pk %}" ><button type="button" class="btn btn-primary">Remove from Favourites</button></a>
+                 <a class="list-group-item-text" href="{% url 'filesharing:removestar' file.pk  %}" ><button type="button" class="btn btn-primary">Remove From Favourites</button></a>
 
-                 {% if file.isprivate %}
-                    <a class="list-group-item-text" href="{% url 'filesharing:makepublic' file.pk %}" ><button type="button" class="btn btn-primary">Make Public</button></a>
 
-                 {% else %}
-                     <a class="list-group-item-text" href="{% url 'filesharing:makeprivate' file.pk %}" ><button type="button" class="btn btn-primary">Make Private</button></a>
-                    {% endif %}
 
              </div>
         </div>
  {% endfor %}
+
+
  </div>
 
-<div class="list-group">
+ <div class="list-group">
  <h2>Folders</h2>
-{% if folders %}
+
 {% for f in folders %}
         <div class="list-group">
              <div class="list-group-item">
-                 <a href="{% url 'filesharing:user-linked-files' f.id %}" class="list-group-item list-group-item-action list-group-item-secondary "><i class='fas fa-folder'></i> {{ f }} </a>
-                   <a  href="{% url 'filesharing:folder-delete' f.id %}" ><button type="button" class="btn btn-primary">Delete</button></a>
-                       <a class="list-group-item-text" href="{% url 'filesharing:download_folder' f.id %}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 <a  style="font-size:25px;color:black" href="{% url 'filesharing:detail' f.id %}" > {{ f }} </a><br>
+                 <p></p>
+                 <a class="list-group-item-text" href="{% url 'filesharing:download_folder' f.id %}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-                     <a class="list-group-item-text" href="{% url 'filesharing:removestarfolder' f.id %}" ><button type="button" class="btn btn-primary">Remove From Favourites</button></a>
-
-
+                 <a class="list-group-item-text" href="{% url 'filesharing:removestarfolder' f.id %}" ><button type="button" class="btn btn-primary">Remove From Favourites</button></a>
 
           </div>
         </div>
  {% endfor %}
+{% for f in ufolders %}
+        <div class="list-group">
+             <div class="list-group-item">
+                 <a  style="font-size:25px;color:black" href="{% url 'filesharing:user-linked-files' f.id %}" > {{ f }} </a><br>
+                 <p></p>
+                 <a class="list-group-item-text" href="{% url 'filesharing:download_folder' f.id %}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
- {% endif %}
+                 <a class="list-group-item-text" href="{% url 'filesharing:removestarfolder' f.id %}" ><button type="button" class="btn btn-primary">Remove From Favourites</button></a>
+
+          </div>
+        </div>
+ {% endfor %}
  </div>
 
-  </body>
+
+
+</body>
 </html>
+
+
+
+
+
+
+
+
+
+
 
