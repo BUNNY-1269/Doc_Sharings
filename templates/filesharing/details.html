@@ -39,6 +39,9 @@
 
 
   <div class="list-group">
+    {%  if notfav or files  %}
+  <h2> Files</h2>
+  {% endif %}
       {% for file in notfav %}
             <div class="list-group">
                  <div class="list-group-item">
@@ -80,7 +83,9 @@
 
 
 <div class="list-group">
-<h2>Folders</h2>
+  {%  if notfavfolders or folders  %}
+  <h2> Folders</h2>
+  {% endif %}
 
  <div class="list-group">
    {% for f in folders %}

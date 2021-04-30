@@ -82,22 +82,7 @@ def profiles(request):
         form=profilecreate()
         return render(request, 'users/profile.html',{'form':form})
 def profileupdate(request):
-    # if request.method == 'POST':
-    #     my_dict = request.POST
-    #     use=get_object_or_404(User,id=request.user.id)
-    #
-    #
-    #    print(my_dict['pict'],2345)
-    #
-    #     p1 = profile.objects.get(owner=use)
-    #     DOB=p1.DOB
-    #     college=p1.college
-    #
-    #     p1.delete()
-    #     p1=profile(profilename=my_dict['profilename'], DOB=DO, college=college,image=my_dict['pict'],owner=use)
-    #
-    #     p1.save()
-    #     return redirect('home1')
+
     if request.method=='POST':
       form=imageform(request.POST,request.FILES)
       if form.is_valid():

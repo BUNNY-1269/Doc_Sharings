@@ -114,6 +114,7 @@ def user_details(request,folder_id):
     folder = get_object_or_404(Folder,pk=folder_id)
     files = folder.file_set.all()
     folders = folder.folder_set.all()
+    print(files,folders)
     favfiles=[]
     notfavfiles=[]
     favfolders=[]
@@ -139,7 +140,7 @@ def user_details(request,folder_id):
         temp = parent
     active_folder = parent_list[0]
     parent_list.reverse()
-    print(notfavfiles)
+    print(notfavfiles,favfiles)
     context={'folder':folder,'folders':favfolders,'notfavfolders':notfavfolders,'files':favfiles,'notfav':notfavfiles,'folder_id':folder_id,'parent_list':parent_list,'active_folder':active_folder}
     return render(request,'filesharing/user_linkedfiles.html',context)
 
@@ -218,7 +219,7 @@ def home1(request):
          else:
               ofo.append(folder[i])
 
-     context = {'folders': ofo,'files':ofo,'ufolders':ufo}
+     context = {'folders': ofo,'files':fo,'ufolders':ufo}
     except File.DoesNotExist and Folder.DoesNotExist:
      files=None
      folders=None
@@ -540,16 +541,15 @@ def FolderUpload(request,pk):
             index = 0
             for field in request.FILES.keys():
                 for formfile in request.FILES.getlist(field):
-                  pa = pathlist_list[index]
-                  if((len(pa)-1)>0):
-                    print(len(pa)-1)
-                    print(pa)
+                    pa = pathlist_list[index]
+
+
                     folder = pa[len(pa)-1]
 
                     f = File(file=formfile,user=request.user,folder=folder )
                     f.name = f.filename()
                     f.save()
-                  index = index+1
+                    index = index+1
 
         return redirect('filesharing:user-linked-files',pk)
     else:

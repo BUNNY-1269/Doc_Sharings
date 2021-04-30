@@ -32,7 +32,9 @@
   <li class="breadcrumb-item"> <a href="{% url 'filesharing:allusers' %}"> {{ user.username }} </a> </li>
   </ol>
 <div class="list-group">
-<h2>Folders</h2>
+  {%  if notfavfolders or all_folders  %}
+  <h2> Folders</h2>
+  {% endif %}
 
     {% for f in all_folders %}
           <div class="list-group">
@@ -60,7 +62,9 @@
    {% endfor %}
 
 <div class="list-group">
-  <h2>Files</h2>
+    {%  if notfav or all_files  %}
+  <h2> Files</h2>
+  {% endif %}
   {% for file in all_files %}
         <div class="list-group">
              <div class="list-group-item">

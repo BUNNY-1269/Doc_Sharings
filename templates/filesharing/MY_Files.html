@@ -94,7 +94,9 @@ for (i = 0; i < dropdown.length; i++) {
 </script>
 <div class="content">
   <div class="list-group">
-  <h2>Files</h2>
+    {%  if notfav or all_files  %}
+  <h2> Files</h2>
+  {% endif %}
   {% for file in all_files %}
         <div class="list-group">
              <div class="list-group-item">
@@ -139,7 +141,10 @@ for (i = 0; i < dropdown.length; i++) {
         </div>
  {% endfor %}
  <div class="list-group">
- <h2>Folders</h2>
+ {% if all_folders or notfavfolders %}
+ <h2> Folders</h2>
+{% endif %}
+
 
 {% for f in all_folders %}
         <div class="list-group">

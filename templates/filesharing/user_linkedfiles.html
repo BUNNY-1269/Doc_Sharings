@@ -62,7 +62,7 @@
 <div class="dropdown">
   <button class="dropbtn">Edit </button>
   <div class="dropdown-content">
-    <a href="{% url 'filesharing:folder-add' %}">create folder</a><br>
+    <a href="{% url 'filesharing:linked-folder-add' folder_id %}">create folder</a><br>
     <a href="{% url 'filesharing:folder-upload' active_folder.id %}">Upload folder</a><br>
 
     <a id="button1" type="submit">Add File</a>
@@ -106,6 +106,9 @@ for (i = 0; i < dropdown.length; i++) {
   {% endfor %}
 </ol>
 
+  {%  if notfav or files  %}
+  <h2> Files</h2>
+  {% endif %}
 <div class="list-group">
      </div>
 {% for file in notfav %}
@@ -156,7 +159,9 @@ for (i = 0; i < dropdown.length; i++) {
     </div>
 
 <div class="list-group">
- <h2>Folders</h2>
+ {% if folders or notfavfolders %}
+ <h2> Folders</h2>
+{% endif %}
 
 {% for f in folders %}
         <div class="list-group">
