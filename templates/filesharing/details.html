@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
 </head>
   <body>
 
@@ -90,6 +93,9 @@
  <div class="list-group">
    {% for f in folders %}
         <div class="list-group-item">
+          <i class="material-icons"  style="color: orange" >
+              folder
+                 </i>
    <a class="list-group-item-text" style="font-size:25px;color:black" href="{% url 'filesharing:detail' f.id %}" > {{ f }} </a>
        <p> </p>
   <a style="display:inline " class="list-group-item-text" href="{% url 'filesharing:download_folder' f.id %}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -101,6 +107,9 @@
  <div class="list-group">
    {% for f in notfavfolders %}
        <div class="list-group-item">
+         <i class="material-icons"  style="color: orange" >
+              folder
+                 </i>
 <a style="font-size:25px;color:black" href="{% url 'filesharing:detail' f.id %}" > {{ f }} </a>
        <p> </p>
        <a class="list-group-item-text" href="{% url 'filesharing:download_folder' f.id %}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

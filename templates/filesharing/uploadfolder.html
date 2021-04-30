@@ -9,8 +9,17 @@
     <link rel="stylesheet" type="text/css" href="{%  static "css/styles.css" %}"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <style>
+      DIV.container {
+     margin: 0;
 
-
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+        }
+</style>
 </head>
   <body>
 <div class="sidebar">
@@ -20,17 +29,14 @@
   <a href="createdprofile"><i class="fa fa-fw fa-address-card"></i>MY Profile</a>
   <a href="logout"><i class="fa fa-fw fa"></i>Logout</a>
 </div>
-<form class="example" action="action_page.php">
-  <input type="text" placeholder="Search.." name="search">
-  <button type="submit"><i class="fa fa-search"></i></button>
-</form>
 
+<div class="container">
  <form method="post" class="example" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Upload</button>
   </form>
 
-
+</div>
   </body>
 </html>

@@ -18,6 +18,7 @@
           text-align:center;
   border: none;
 }
+
       .dropdown {
   position: relative;
   display: inline-block;
@@ -45,7 +46,8 @@
 
      </style>
 
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
 
 <body>
@@ -88,10 +90,11 @@ for (i = 0; i < dropdown.length; i++) {
     }
   });
 }
-
-
-
 </script>
+
+
+
+
 <div class="content">
   <div class="list-group">
     {%  if notfav or all_files  %}
@@ -149,8 +152,11 @@ for (i = 0; i < dropdown.length; i++) {
 {% for f in all_folders %}
         <div class="list-group">
              <div class="list-group-item">
-                 <a  style="font-size:25px;color:black" href="{% url 'filesharing:user-linked-files' f.id %}" > {{ f }} </a><br>
-                 <p></p>
+                 <i class="material-icons"  style="color: orange" >
+              folder
+                 </i>
+                  <a  style="font-size:25px;color:black" href="{% url 'filesharing:user-linked-files' f.id %}" > {{ f }} </a><br>
+                     <p></p>
                  <a class="list-group-item-text"  href="{% url 'filesharing:folder-delete' f.id %}" ><button type="button" class="btn btn-primary">Delete</button></a>
                  <a class="list-group-item-text" href="{% url 'filesharing:download_folder' f.id %}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
@@ -169,6 +175,9 @@ for (i = 0; i < dropdown.length; i++) {
 {% for f in notfavfolders %}
         <div class="list-group">
              <div class="list-group-item">
+                   <i class="material-icons"  style="color: orange" >
+              folder
+                 </i>
                  <a  style="font-size:25px;color:black" href="{% url 'filesharing:user-linked-files' f.id %}" > {{ f }} </a> <br>
                  <p>  </p>
                       <a  class="list-group-item-text"  href="{% url 'filesharing:folder-delete' f.id %}" ><button type="button" class="btn btn-primary">Delete</button></a>
