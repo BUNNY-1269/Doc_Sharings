@@ -166,7 +166,18 @@ for (i = 0; i < dropdown.length; i++) {
 </script>
 
 
+<div class="bg-modal" id="file">
+  <div class="modal-content">
+      <div class="close">+</div>
+         <form action='uploadfile' method="POST"  enctype="multipart/form-data">
+           {% csrf_token %}
+             <input type="file" name="file" >
+           <button type="submit">Upload</button>
+         </form>
 
+
+  </div>
+</div>
 
 
 
