@@ -9,17 +9,33 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
-        p.solid {border-style: solid;}
-        h4{
-            border-bottom: 2px solid black;
-        }
-        .vl
-        {border-left: 2px solid black;
-         height: auto;
-        }
 
 
-}
+
+
+        Div.container{
+            margin: 0;
+
+    position: absolute;
+    top: 40%;
+    left: 60%;
+    margin-right: -30%;
+    transform: translate(-70%, -30%)
+        }
+
+    {#    Div.new{#}
+    {#        margin: 0;#}
+    {##}
+    {#position: absolute;#}
+    {#top: 60%;#}
+    {#left: 60%;#}
+    {#margin-right: -50%;#}
+    {#transform: translate(-50%, -50%)#}
+    {#    }#}
+
+
+
+
     </style>
 
 <head>
@@ -34,14 +50,51 @@
 
 <body>
 
+  <div class="container">
+<div class="align-content-center">
+  <h3> &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;CREATE YOUR PROFILE </h3>
+      </div>
+         <div class="card">
+             <div class="card-body">
+                                   <div class="d-flex flex-column align-items-center text-center">
 
-        <form method="post"  enctype="multipart/form-data">
+        <form   method="post"  enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form|crispy }}
-    <button type="submit">submit</button>
-  </form>
 
-        Note:Date of birth should be in <b>YYYY-MM-DD format</b>
+       <div>
+          &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;Profilepicture:
+            {{ form.image }}
+
+        </div>
+            <br>
+            <div>
+                Profilename:
+               {{ form.profilename }}
+
+            </div>
+            <br>
+            <div>
+                Date of Birth:
+               {{ form.DOB }}
+
+            </div>
+            <br>
+              <div >
+                College:  &nbsp; &nbsp; &nbsp; &nbsp;
+               {{ form.college }}
+               </div>
+            <br>
+            <button type="submit">submit</button>
+
+  </form>
+                                   </div>
+                 </div>
+ </div>
+       <div>
+           <br>
+           Note:Date of birth should be in <b>YYYY-MM-DD format</b>
+  </div>
+  </div>
 </body>
 
 </html>

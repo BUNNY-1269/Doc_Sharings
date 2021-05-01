@@ -17,51 +17,59 @@
         {border-left: 2px solid black;
          height: auto;
         }
+         Div.container{
+            margin: 0;
+
+    position: absolute;
+    top: 40%;
+    left: 60%;
+    margin-right: -30%;
+    transform: translate(-70%, -30%)
+        }
+
 
 
 }
     </style>
   </head>
 
-<body >
+<body  >
 
-
+<div class="container">
+    <h3> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;Update your Profile</h3>
+    <div class="card">
+             <div class="card-body">
+                                   <div class="d-flex flex-column align-items-center text-center">
 <form  method="post" enctype="multipart/form-data" >
 {% csrf_token %}
   <div class="fieldWrapper">
-
+        &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;  &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;  Choose Image:
         <input id="pict" type="file" name="image" value={{ form.image }}
       <img width="500" id="image"   />
-       <script>
-                 document.getElementById("pict").onchange = function () {
-    var reader = new FileReader();
-
-    reader.onload = function (e) {
-        // get loaded data and render thumbnail.
-        document.getElementById("image").src = e.target.result;
-    };
-
-    // read the image file as a data URL.
-    reader.readAsDataURL(this.files[0]);
-};
-
-             </script>
-
 
 
   </div>
     <div class="fieldWrapper">
-        profilename:
+       &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; profilename:
     {{ form.profilename }}
     </div>
-
+ <br>
        <button type="submit">submit</button>
 
+
 </form>
+
+                                   </div>
+             </div>
+    </div>
+</div>
+
+
+
+
 
 
 
 </body>
 
-</html>
 </html>
