@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 
   </head>
@@ -54,6 +56,9 @@
 {% for f in folders %}
         <div class="list-group">
              <div class="list-group-item">
+                 <i class="material-icons"  style="color: orange" >
+              folder
+                 </i>
                  <a  style="font-size:25px;color:black" href="{% url 'filesharing:detail' f.id %}" > {{ f }} </a><br>
                  <p></p>
                  <a class="list-group-item-text" href="{% url 'filesharing:download_folder' f.id %}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -66,6 +71,9 @@
 {% for f in ufolders %}
         <div class="list-group">
              <div class="list-group-item">
+                 <i class="material-icons"  style="color: orange" >
+              folder
+                 </i>
                  <a  style="font-size:25px;color:black" href="{% url 'filesharing:user-linked-files' f.id %}" > {{ f }} </a><br>
                  <p></p>
                  <a class="list-group-item-text" href="{% url 'filesharing:download_folder' f.id %}" target="_blank" download><button type="button" class="btn btn-primary">Download</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
