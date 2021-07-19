@@ -1,7 +1,7 @@
 # File sharing Platform
 
 ## About The Website
-File..........................
+Users are directed to a register on opening the website. After the registering, The user is directed to a profile page where user should fill details. On filling that form the user is directed to the home page of the website where the user will see 4 tabs in side navigation bars. Home pages displays the folders and files added to favorites. My_files shows the files and folders of the logged in user. Users tab shows the all the users registered on the website, on clicking the specific user user will be able to see their folders and files.Logout buttons logs out the user.  
 
 ### Environment Setup Locally
 
